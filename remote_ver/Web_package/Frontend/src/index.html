@@ -9,6 +9,10 @@
   <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
 
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@100..800&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -39,7 +43,7 @@
     <div class="left">
 
       <div class="section" id="config">
-        <h2>configuration</h2>
+        <h2>Configuration</h2>
         <div class="row">
           <button onclick="openPopup('popup1')">Microscope Parameters</button>
           <button onclick="openPopup('popup2')">Communication Parameters</button>
@@ -201,51 +205,53 @@
     </div>
     <!-- Right panel: Camera + directional pad -->
     <div class="right">
-
-      <div class="camera-box">
-        <div id="cameraContainer" style="margin-top: 20px;">
-          <h3>Live Camera</h3>
-          <img id="cameraStream" style="max-width: 100%;" />
-        </div>
-
-
-
-        <div class="controls">
-          <button id="openCam">Open Camera</button>
-          <button id="stopCam" class="secondary">Stop Camera</button>
-          <label for="exposureInput">Exposure (μs):</label>
-          <input type="number" id="exposureInput" value="150" step="10" />
-          <button id="setExposureBtn">Set Exposure</button>
-
-          <button id="captureImageBtn">Capture Image</button>
-          <select id="captureType">
-            <option value="object">As Object</option>
-            <option value="reference">As Reference</option>
-          </select>
-        </div>
+      <div class="camAll">
+        <div class="camera-box">
+          <div id="cameraContainer" style="margin-top: 20px;">
+            <h3>Live Camera</h3>
+            <img id="cameraStream" style="max-width: 100%;" />
+          </div>
 
 
-        <!-- Directional pad -->
-        <div class="camStuff">
-          <div class="movment-container">
 
-            <div class="o-pad">
-              <div class="square">
-                <button id="top" class="dirctional-btn">▲</button>
-                <button id="right" class="dirctional-btn">▶</button>
-                <button id="left" class="dirctional-btn">◀</button>
-                <button id="bottom" class="dirctional-btn">▼</button>
+          <div class="controls">
+            <button id="openCam">Open Camera</button>
+            <button id="stopCam" class="secondary">Stop Camera</button>
+            <label for="exposureInput">Exposure (μs):</label>
+            <input type="number" id="exposureInput" value="150" step="10" />
+            <button id="setExposureBtn">Set Exposure</button>
+
+            <button id="captureImageBtn">Capture Image</button>
+            <select id="captureType">
+              <option value="object">As Object</option>
+              <option value="reference">As Reference</option>
+            </select>
+          </div>
+
+
+          <!-- Directional pad -->
+          <div class="camStuff">
+            <div class="movment-container">
+
+              <div class="o-pad">
+                <div class="square">
+                  <button id="top" class="dirctional-btn">▲</button>
+                  <button id="right" class="dirctional-btn">▶</button>
+                  <button id="left" class="dirctional-btn">◀</button>
+                  <button id="bottom" class="dirctional-btn">▼</button>
+                </div>
+                <button id="center">🏠︎</button>
+                <div class="circle"></div>
+
               </div>
-              <button id="center">🏠︎</button>
-              <div class="circle"></div>
-
-            </div>
-            <div class="focus-controls">
-              <button id="focus">▲</button>
-              <div class="focus-div">Z <br> axis</div>
-              <button id="unfocus">▼</button>
+              <div class="focus-controls">
+                <button id="focus">▲</button>
+                <div class="focus-div">Z <br> axis</div>
+                <button id="unfocus">▼</button>
+              </div>
             </div>
           </div>
+
 
 
         </div>

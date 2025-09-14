@@ -9,6 +9,7 @@
   }
 
   * {
+    font-family: 'Anek Latin', sans-serif;
     box-sizing: border-box;
   }
 
@@ -39,17 +40,18 @@
   }
 
   .loader {
-    border: 16px solid #f3f3f3;
-    /* Light grey */
-    border-top: 16px solid #3498db;
-    /* Blue */
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
+    display: inline-block;
+    position: relative;
+    border: 10px solid;
+    border-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.25) rgba(255, 255, 255, 0.35) rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
   }
 
-  @keyframes spin {
+  @keyframes rotation {
     0% {
       transform: rotate(0deg);
     }
@@ -63,7 +65,7 @@
     margin: 0;
     padding: 16px;
     height: 100vh;
-    background: linear-gradient(135deg, #eef2f7 0%, #ffffff 60%);
+    background: linear-gradient(135deg, #eef2f7 0%, #A1C2BD 60%);
     color: #1f2d3a;
   }
 
@@ -85,16 +87,21 @@
   .right {
     display: flex;
     flex-direction: column;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 10px 24px var(--shadow);
+    gap: 16px;
   }
 
 
 
-
+  .camAll {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 6px 16px var(--shadow);
+  }
 
   .section {
     background: var(--card-bg);
@@ -174,7 +181,7 @@
     padding: 8px 14px;
     border: none;
     border-radius: 6px;
-    background: #3f7fff;
+    background: #19183B;
     color: #fff;
     cursor: pointer;
     font-size: 0.9rem;
@@ -205,7 +212,14 @@
   }
 
   .camera-output {
-    height: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 6px 16px var(--shadow);
   }
 
   .output-group {
@@ -456,12 +470,14 @@
   }
 
   .camStuff {
-       display: flex;
-    justify-content: center; /* centers horizontally */
-    align-items: flex-start; /* keeps it at the top vertically */
+    display: flex;
+    justify-content: center;
+    /* centers horizontally */
+    align-items: flex-start;
+    /* keeps it at the top vertically */
     width: 100%;
     /* height can be whatever your container needs */
-}
+  }
 
   #foucsingBtns button {
     width: 60px;
@@ -545,14 +561,15 @@
 
 
 
-.o-pad {
+  .o-pad {
     position: relative;
     width: 200px;
     height: 200px;
-    margin: 0; /* removed 50px auto to allow container centering */
-}
+    margin: 0;
+    /* removed 50px auto to allow container centering */
+  }
 
-.square {
+  .square {
     width: 200px;
     height: 200px;
     display: grid;
@@ -560,12 +577,13 @@
     grid-template-rows: 1fr 1fr;
     gap: 0;
     transform: rotate(45deg);
-    margin: 0; /* removed 50px auto */
+    margin: 0;
+    /* removed 50px auto */
     border-radius: 100%;
     position: relative;
-}
+  }
 
-.dirctional-btn {
+  .dirctional-btn {
     width: 100%;
     height: 100%;
     display: flex;
@@ -575,22 +593,25 @@
     cursor: pointer;
     padding: 0;
     position: relative;
-    background-color: #4CAF50; /* fresh green base */
-}
+    background-color: #4CAF50;
+    /* fresh green base */
+  }
 
-.square button {
+  .square button {
     width: 100%;
     height: 100%;
     font-size: 16px;
     cursor: pointer;
     border: 1px solid #fff;
-    background-color: #F9F9F9; /* light gray */
+    background-color: #F9F9F9;
+    /* light gray */
     position: relative;
     overflow: hidden;
-    border-radius: 10px; /* slight rounding for all buttons */
-}
+    border-radius: 10px;
+    /* slight rounding for all buttons */
+  }
 
-.square button::before {
+  .square button::before {
     content: '';
     position: absolute;
     top: 0;
@@ -600,89 +621,94 @@
     opacity: 0;
     transition: opacity 0.5s ease;
     z-index: 0;
-}
+  }
 
-/* Gradient direction based on button ID with better colors */
-#top::before {
-    background: linear-gradient(to bottom right, #32CD32, rgba(255,127,80,0));
-}
+  /* Gradient direction based on button ID with better colors */
+  #top::before {
+    background: linear-gradient(to bottom right, #32CD32, rgba(255, 127, 80, 0));
+  }
 
-#right::before {
-    background: linear-gradient(to bottom left, #FF7F50, rgba(30,144,255,0));
-}
+  #right::before {
+    background: linear-gradient(to bottom left, #FF7F50, rgba(30, 144, 255, 0));
+  }
 
-#bottom::before {
-    background: linear-gradient(to top left, #32CD32, rgba(50,205,50,0));
-}
+  #bottom::before {
+    background: linear-gradient(to top left, #32CD32, rgba(50, 205, 50, 0));
+  }
 
-#left::before {
-    background: linear-gradient(to top right, #FF7F50, rgba(255,215,0,0));
-}
+  #left::before {
+    background: linear-gradient(to top right, #FF7F50, rgba(255, 215, 0, 0));
+  }
 
-#top::before {
-    background: linear-gradient(to bottom right, #32CD32, rgba(255,127,80,0));
-}
+  #top::before {
+    background: linear-gradient(to bottom right, #32CD32, rgba(255, 127, 80, 0));
+  }
 
 
-.square button:hover::before {
+  .square button:hover::before {
     opacity: 1;
-}
+  }
 
-.square button span {
+  .square button span {
     position: relative;
     z-index: 1;
-}
+  }
 
-.circle {
+  .circle {
     position: absolute;
-    top: 50%; /* adjusted for vertical centering */
+    top: 50%;
+    /* adjusted for vertical centering */
     left: 50%;
     transform: translate(-50%, -50%);
     width: 60px;
     height: 60px;
-    background-color: white; /* pink for contrast */
+    background-color: white;
+    /* pink for contrast */
     border-radius: 50%;
-}
+  }
 
-/* Center button styling with better color and hover */
-#center {
+  /* Center button styling with better color and hover */
+  #center {
     position: absolute;
-    top: 50%; /* adjusted for vertical centering */
+    top: 50%;
+    /* adjusted for vertical centering */
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    background-color: gray; /* bright orange-red */
+    background-color: gray;
+    /* bright orange-red */
     cursor: pointer;
     z-index: 10;
     border: none;
     transition: transform 0.2s ease, background-color 0.2s ease;
-}
+  }
 
-#center:hover {
+  #center:hover {
     transform: translate(-50%, -50%) scale(1.1);
-    background-color: lightblue; /* lighter orange-red on hover */
-}
+    background-color: lightblue;
+    /* lighter orange-red on hover */
+  }
 
-/* Directional button corner rounding */
-#top {
+  /* Directional button corner rounding */
+  #top {
     border-top-left-radius: 100%;
-}
+  }
 
-#right {
+  #right {
     border-top-right-radius: 100%;
-}
+  }
 
-#left {
+  #left {
     border-bottom-left-radius: 100%;
-}
+  }
 
-#bottom {
+  #bottom {
     border-bottom-right-radius: 100%;
-}
+  }
 
-.movment-container {
+  .movment-container {
     display: grid;
     grid-template-columns: auto auto;
     gap: 10px;
@@ -694,11 +720,12 @@
     background: transparent;
 
     /* child centering inside itself */
-    align-items: center;     
+    align-items: center;
     justify-items: center;
-}
-/* Focus controls container */
-.focus-controls {
+  }
+
+  /* Focus controls container */
+  .focus-controls {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -706,58 +733,63 @@
     padding: 5px;
     border-radius: 10px;
     background-color: #F9F9F9;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    
+
     /* horizontal centering */
     margin-left: auto;
     margin-right: auto;
-}
-/* Focus buttons */
-.focus-controls button {
+  }
+
+  /* Focus buttons */
+  .focus-controls button {
     flex: 1;
     width: 60%;
-    background-color: #C864F9; /* solid focus color */
+    background-color: #C864F9;
+    /* solid focus color */
     border: none;
     border-radius: 10px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
     transition: transform 0.2s ease;
-}
+  }
 
-.focus-controls button:hover {
+  .focus-controls button:hover {
     transform: scale(1.05);
-}
+  }
 
-/* Focus label */
-.focus-div {
+  /* Focus label */
+  .focus-div {
     flex: 0 0 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: #F9F9F9; /* solid light gray */
+    background-color: #F9F9F9;
+    /* solid light gray */
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-}
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
 
 
-#focus {
+  #focus {
     position: relative;
-    background-color: #f2f2f2; /* near-white base */
+    background-color: #f2f2f2;
+    /* near-white base */
     border: none;
     border-radius: 10px;
     width: 100%;
     height: 50px;
     cursor: pointer;
-    color: #333; /* darker text for contrast */
+    color: #333;
+    /* darker text for contrast */
     overflow: hidden;
-}
+  }
 
-/* Gradient overlay from top */
-#focus::before {
+  /* Gradient overlay from top */
+  #focus::before {
     content: '';
     position: absolute;
     top: 0;
@@ -768,32 +800,36 @@
     opacity: 0;
     transition: opacity 0.5s ease;
     pointer-events: none;
-    z-index: 0; /* gradient behind text */
-}
+    z-index: 0;
+    /* gradient behind text */
+  }
 
-#focus span {
+  #focus span {
     position: relative;
-    z-index: 1; /* text above gradient */
-}
+    z-index: 1;
+    /* text above gradient */
+  }
 
-#focus:hover::before {
+  #focus:hover::before {
     opacity: 1;
-}
+  }
 
-#unfocus {
+  #unfocus {
     position: relative;
-    background-color: #f2f2f2; /* near-white base */
+    background-color: #f2f2f2;
+    /* near-white base */
     border: none;
     border-radius: 10px;
     width: 100%;
     height: 50px;
     cursor: pointer;
-    color: #333; /* darker text for contrast */
+    color: #333;
+    /* darker text for contrast */
     overflow: hidden;
-}
+  }
 
-/* Gradient overlay from bottom */
-#unfocus::before {
+  /* Gradient overlay from bottom */
+  #unfocus::before {
     content: '';
     position: absolute;
     bottom: 0;
@@ -804,14 +840,16 @@
     opacity: 0;
     transition: opacity 0.5s ease;
     pointer-events: none;
-    z-index: 0; /* gradient behind text */
-}
+    z-index: 0;
+    /* gradient behind text */
+  }
 
-#unfocus span {
+  #unfocus span {
     position: relative;
-    z-index: 1; /* text above gradient */
-}
+    z-index: 1;
+    /* text above gradient */
+  }
 
-#unfocus:hover::before {
+  #unfocus:hover::before {
     opacity: 1;
-}
+  }
