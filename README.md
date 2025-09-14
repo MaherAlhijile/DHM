@@ -9,9 +9,9 @@ This repository contains two implementations of a Digital Holography Microscope 
 
 ## Prerequisites
 For both versions, make sure you have the following installed on your system:
--Python 3.0+
--pip (Python package manager)
--Git (to clone the repository)
+*Python 3.0+
+*pip (Python package manager)
+*Git (to clone the repository)
 
 For the remote version make sure an operating system installed on the Raspberry Pi
 
