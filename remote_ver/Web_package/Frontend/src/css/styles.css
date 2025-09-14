@@ -75,24 +75,43 @@
     max-width: 90%;
     margin: 0 auto;
     height: 100%;
+    justify-content: center;
+    align-items: stretch;
+    /* make children stretch vertically */
   }
 
-  .left {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-
+  .left,
   .right {
+    /* or gainsboro for .right */
     display: flex;
     flex-direction: column;
     gap: 16px;
+    flex: 1;
+    /* allows left and right to take equal width if needed */
   }
 
+  .left>*,
+  .right>* {
+    flex-grow: 1;
+    /* items inside will expand equally */
+  }
 
+  .cameraBox {
+    border-radius: 1%;
+    width: 810px;
+    height: 520px;
+    background-color: gainsboro;
+    background-image: url('../resources/noise.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: brightness(50%);
+    margin: 0 auto;
+    /* ensures horizontal centering */
+  }
 
   .camAll {
+
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -101,6 +120,10 @@
     flex-direction: column;
     gap: 8px;
     box-shadow: 0 6px 16px var(--shadow);
+
+    align-items: center;
+    /* horizontally center all children */
+
   }
 
   .section {
@@ -237,13 +260,36 @@
   }
 
 
-
   .camera-box {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+
+  .controls input{
+    margin: 0px 0px  10px 10px;
+  }
+
+
+
+  #cameraStream {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* center the SVG */
+    width: 200px;
+    /* adjust as needed */
+    height: auto;
+    pointer-events: none;
+    /* allows clicks through it */
+    opacity: 0.2;
+    /* 0 = fully transparent, 1 = fully opaque */
+
+  }
+
 
   .camera-header {
     font-weight: 600;
@@ -258,12 +304,7 @@
     background: #000;
   }
 
-  .controls {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
 
-  }
 
   /* Directional pad */
   .directional-container {
@@ -391,23 +432,25 @@
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: var(--radius);
-    display: inline-flex;
-    /* or flex, depending on layout */
+    display: flex;
+    /* inline-flex isn’t needed unless inline behavior is required */
     justify-content: center;
     align-items: center;
     font-weight: bold;
     font-size: 1rem;
     text-align: center;
 
-    /* Responsive sizing based on content */
+    /* Keep 16:9 aspect ratio */
+    aspect-ratio: 16 / 9;
     width: 100%;
-    height: auto;
-    /* Let content define height */
-    min-height: 200px;
-    /* Optional: minimum height */
-    max-height: 100%;
-    /* Prevent overflow if necessary */
+    /* responsive width */
+    max-width: 480px;
+    /* optional: limit width */
+    min-height: auto;
+    /* height is determined by width & ratio */
+    box-sizing: border-box;
   }
+
 
 
   .focus-controls {
@@ -810,7 +853,7 @@
     /* text above gradient */
   }
 
-  #focus:hover::before {
+  #focus:hover::besfore {
     opacity: 1;
   }
 
