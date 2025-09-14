@@ -26,7 +26,6 @@ Features include:
 * Live camera integration (via Basler Pylon)
 
 * Configurable microscope parameters via frontend GUI
----
 
 ### Remote Version Enhancements
   * Improved the noise reduction functionality using Artificial Intelligence
