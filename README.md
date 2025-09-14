@@ -56,6 +56,7 @@ Features include:
    │     ├── WiringPi/         
    │     ├── stepper_motor/
 ```
+---
 
 ## Prerequisites
 For both versions, make sure you have the following installed on your system:
@@ -100,7 +101,8 @@ pip install .
 Run one of the following commands in the terminal:  
 ```bash
 hostname -I
-   
+```
+
 2. Navigate to the backend folder
 ```Bash
 cd remote/backend
