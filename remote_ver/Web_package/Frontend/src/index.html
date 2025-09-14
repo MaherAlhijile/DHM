@@ -14,6 +14,12 @@
 <body>
 
 
+  <div id="processingOverlay" style="display: none;">
+    <span>Processing<span id="dots"></span></span>
+    <div class="loader"></div>
+
+  </div>
+
   <div class="top-toggle-buttons">
     <button id="toggleCamera">Camera</button>
     <button id="toggleComputation">Computations and Output</button>
@@ -28,6 +34,7 @@
 
 
   <div class="container">
+
     <!-- Left panel -->
     <div class="left">
 
@@ -222,7 +229,6 @@
         <div class="camStuff">
 
           <div class="directional-container">
-
             <button id="up">Up</button>
             <button id="down">Down</button>
             <button id="home">Home</button>

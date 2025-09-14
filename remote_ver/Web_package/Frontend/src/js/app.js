@@ -55,7 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function selectROI(x1, y1, x2, y2) {
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/select_roi", {
+        startProcessingOverlay()
+        const response = await fetch("http://" + ip + ":" + port + "/select_roi", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ x1, y1, x2, y2 })
@@ -70,13 +71,15 @@ async function selectROI(x1, y1, x2, y2) {
     } catch (error) {
         console.error("Error selecting ROI:", error);
         alert("Error selecting ROI: " + error.message);
+        stopProcessingOverlay()
     }
 }
 
 
 async function move_motor(motor_number, steps, latency_ms, direction) {
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/move_motor_endpoint", {
+
+        const response = await fetch("http://" + ip + ":" + port + "/move_motor_endpoint", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ x1, y1, x2, y2 })
@@ -117,6 +120,26 @@ document.getElementById("home").addEventListener("click", () => {
     console.log("Home button clicked");
 
 });
+
+
+function startProcessingOverlay() {
+    const overlay = document.getElementById("processingOverlay");
+    const dots = document.getElementById("dots");
+    overlay.style.display = "flex";
+
+    let count = 0;
+    window.processingInterval = setInterval(() => {
+        count = (count + 1) % 4; // cycle 0-3
+        dots.textContent = ".".repeat(count);
+    }, 500); // change every 0.5s
+}
+
+function stopProcessingOverlay() {
+    const overlay = document.getElementById("processingOverlay");
+    overlay.style.display = "none";
+    clearInterval(window.processingInterval);
+    document.getElementById("dots").textContent = "";
+}
 
 
 function startROISelection() {
@@ -268,7 +291,9 @@ async function sendParams() {
 
 
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/run_phase_difference", {
+        startProcessingOverlay()
+
+        const response = await fetch("http://" + ip + ":" + port + "/run_phase_difference", {
             method: "POST",
             body: formData
         });
@@ -329,13 +354,18 @@ async function sendParams() {
     } catch (error) {
         console.error("Error:", error);
         alert("Error: " + error.message);
+        stopProcessingOverlay()
+    } finally {
+        // Hide overlay when done (success or error)
+        stopProcessingOverlay()
     }
 }
 
 
 async function fetchSpectrum() {
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/check_spectrum");
+        startProcessingOverlay()
+        const response = await fetch("http://" + ip + ":" + port + "/check_spectrum");
         const data = await response.json();
         if (data.error) {
             alert(data.error);
@@ -349,6 +379,10 @@ async function fetchSpectrum() {
     } catch (error) {
         console.error("Error:", error);
         alert("Error: " + error.message);
+        stopProcessingOverlay()
+    } finally {
+        // Hide overlay when done (success or error)
+        stopProcessingOverlay()
     }
 
 
@@ -356,7 +390,9 @@ async function fetchSpectrum() {
 //recieves information returned from backend after 3d computation
 async function fetch3DPlot() {
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/compute_3d");
+        startProcessingOverlay()
+
+        const response = await fetch("http://" + ip + ":" + port + "/compute_3d");
         const data = await response.json();
         if (data.error) {
             alert(data.error);
@@ -382,6 +418,10 @@ async function fetch3DPlot() {
     } catch (error) {
         console.error("Error:", error);
         alert("Error: " + error.message);
+        stopProcessingOverlay()
+    } finally {
+        // Hide overlay when done (success or error)
+        stopProcessingOverlay()
     }
 }
 
@@ -569,7 +609,9 @@ async function fetch1DPlot() {
     const y2 = Math.round(point2.y);
 
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/compute_1d", {
+        startProcessingOverlay()
+
+        const response = await fetch("http://" + ip + ":" + port + "/compute_1d", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -609,13 +651,18 @@ async function fetch1DPlot() {
     } catch (error) {
         console.error("1D Error:", error);
         alert("Failed to generate 1D plot");
+        stopProcessingOverlay()
+    } finally {
+        // Hide overlay when done (success or error)
+        stopProcessingOverlay()
     }
 }
 
 
 async function selectROI(x1, y1, x2, y2) {
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/select_roi", {
+
+        const response = await fetch("http://" + ip + ":" + port + "/select_roi", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ x1, y1, x2, y2 })
@@ -667,12 +714,12 @@ toggleCamera.addEventListener('click', () => {
 //camera
 async function initializeCamera() {
     try {
-        const res = await fetch("http://"+ ip +":"+ port +"/start_camera");
+        const res = await fetch("http://" + ip + ":" + port + "/start_camera");
         const data = await res.json();
         if (data.error) {
             alert("Failed to start camera: " + data.error);
         } else {
-            document.getElementById("cameraStream").src = "http://"+ ip +":"+ port +"/camera_feed";
+            document.getElementById("cameraStream").src = "http://" + ip + ":" + port + "/camera_feed";
         }
     } catch (err) {
         alert("Error connecting to server: " + err.message);
@@ -683,7 +730,7 @@ async function initializeCamera() {
 async function setExposure() {
     const exposureValue = document.getElementById("exposureInput").value;
     try {
-        const res = await fetch("http://"+ ip +":"+ port +"/set_exposure", {
+        const res = await fetch("http://" + ip + ":" + port + "/set_exposure", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ exposure: parseFloat(exposureValue) })
@@ -705,7 +752,7 @@ async function setExposure() {
 async function captureImage() {
     const type = document.getElementById("captureType").value; // "object" or "reference"
     try {
-        const res = await fetch("http://"+ ip +":"+ port +"/capture_image", {
+        const res = await fetch("http://" + ip + ":" + port + "/capture_image", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ type: type })
@@ -731,7 +778,7 @@ async function captureImage() {
 async function stopCamera() {
     try {
         document.getElementById("cameraStream").src = "";  // Stop image
-        await fetch("http://"+ ip +":"+ port +"/stop_camera");
+        await fetch("http://" + ip + ":" + port + "/stop_camera");
     } catch (error) {
         console.error("Failed to stop camera on backend:", error);
     }

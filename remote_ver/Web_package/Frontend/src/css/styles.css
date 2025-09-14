@@ -12,6 +12,53 @@
     box-sizing: border-box;
   }
 
+
+  #processingOverlay {
+    /* hidden by default */
+    display: none;
+    /* hidden by default */
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+
+    /* flexbox centering */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* optional styling */
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+  }
+
+  .loader {
+    border: 16px solid #f3f3f3;
+    /* Light grey */
+    border-top: 16px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   body {
     margin: 0;
     padding: 16px;
@@ -176,7 +223,7 @@
   }
 
 
-  
+
   .camera-box {
     flex: 1;
     display: flex;
@@ -201,17 +248,19 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    
+
   }
 
   /* Directional pad */
   .directional-container {
-    margin-top: 12px; 
+    margin-top: 12px;
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: center;      /* vertical center */
-    justify-content: center;  /* horizontal center */
+    align-items: center;
+    /* vertical center */
+    justify-content: center;
+    /* horizontal center */
     gap: 6px;
   }
 
@@ -270,7 +319,7 @@
     z-index: 1000;
   }
 
-  
+
   /* Expand on hover */
   .side-menu-container:hover {
     transform: translateX(0);
@@ -324,23 +373,27 @@
     box-sizing: border-box;
   }
 
- .output-box {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: var(--radius);
-  display: inline-flex; /* or flex, depending on layout */
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 1rem;
-  text-align: center;
+  .output-box {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: var(--radius);
+    display: inline-flex;
+    /* or flex, depending on layout */
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
 
-  /* Responsive sizing based on content */
-  width: 100%;
-  height: auto;         /* Let content define height */
-  min-height: 200px;    /* Optional: minimum height */
-  max-height: 100%;     /* Prevent overflow if necessary */
-}
+    /* Responsive sizing based on content */
+    width: 100%;
+    height: auto;
+    /* Let content define height */
+    min-height: 200px;
+    /* Optional: minimum height */
+    max-height: 100%;
+    /* Prevent overflow if necessary */
+  }
 
 
   .focus-controls {
@@ -490,7 +543,3 @@
     flex: 1;
     /* each child grows to fill equally */
   }
-
-
-
-  
