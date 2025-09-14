@@ -456,16 +456,12 @@
   }
 
   .camStuff {
-    display: flex;
-    flex-direction: row;
+       display: flex;
+    justify-content: center; /* centers horizontally */
+    align-items: flex-start; /* keeps it at the top vertically */
     width: 100%;
-    /* fills horizontal space */
-    height: 100%;
-    /* optional, fills vertical space if parent has height */
-    box-sizing: border-box;
-    /* include padding/border in size */
-  }
-
+    /* height can be whatever your container needs */
+}
 
   #foucsingBtns button {
     width: 60px;
@@ -543,3 +539,279 @@
     flex: 1;
     /* each child grows to fill equally */
   }
+
+
+
+
+
+
+.o-pad {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0; /* removed 50px auto to allow container centering */
+}
+
+.square {
+    width: 200px;
+    height: 200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0;
+    transform: rotate(45deg);
+    margin: 0; /* removed 50px auto */
+    border-radius: 100%;
+    position: relative;
+}
+
+.dirctional-btn {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    background-color: #4CAF50; /* fresh green base */
+}
+
+.square button {
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #fff;
+    background-color: #F9F9F9; /* light gray */
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px; /* slight rounding for all buttons */
+}
+
+.square button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 0;
+}
+
+/* Gradient direction based on button ID with better colors */
+#top::before {
+    background: linear-gradient(to bottom right, #32CD32, rgba(255,127,80,0));
+}
+
+#right::before {
+    background: linear-gradient(to bottom left, #FF7F50, rgba(30,144,255,0));
+}
+
+#bottom::before {
+    background: linear-gradient(to top left, #32CD32, rgba(50,205,50,0));
+}
+
+#left::before {
+    background: linear-gradient(to top right, #FF7F50, rgba(255,215,0,0));
+}
+
+#top::before {
+    background: linear-gradient(to bottom right, #32CD32, rgba(255,127,80,0));
+}
+
+
+.square button:hover::before {
+    opacity: 1;
+}
+
+.square button span {
+    position: relative;
+    z-index: 1;
+}
+
+.circle {
+    position: absolute;
+    top: 50%; /* adjusted for vertical centering */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background-color: white; /* pink for contrast */
+    border-radius: 50%;
+}
+
+/* Center button styling with better color and hover */
+#center {
+    position: absolute;
+    top: 50%; /* adjusted for vertical centering */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: gray; /* bright orange-red */
+    cursor: pointer;
+    z-index: 10;
+    border: none;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#center:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+    background-color: lightblue; /* lighter orange-red on hover */
+}
+
+/* Directional button corner rounding */
+#top {
+    border-top-left-radius: 100%;
+}
+
+#right {
+    border-top-right-radius: 100%;
+}
+
+#left {
+    border-bottom-left-radius: 100%;
+}
+
+#bottom {
+    border-bottom-right-radius: 100%;
+}
+
+.movment-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+    height: 300px;
+    width: 500px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    background: transparent;
+
+    /* child centering inside itself */
+    align-items: center;     
+    justify-items: center;
+}
+/* Focus controls container */
+.focus-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 100%;
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #F9F9F9;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    
+    /* horizontal centering */
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Focus buttons */
+.focus-controls button {
+    flex: 1;
+    width: 60%;
+    background-color: #C864F9; /* solid focus color */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.focus-controls button:hover {
+    transform: scale(1.05);
+}
+
+/* Focus label */
+.focus-div {
+    flex: 0 0 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #F9F9F9; /* solid light gray */
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+
+#focus {
+    position: relative;
+    background-color: #f2f2f2; /* near-white base */
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+    color: #333; /* darker text for contrast */
+    overflow: hidden;
+}
+
+/* Gradient overlay from top */
+#focus::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, lightblue, #f2f2f2);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 0; /* gradient behind text */
+}
+
+#focus span {
+    position: relative;
+    z-index: 1; /* text above gradient */
+}
+
+#focus:hover::before {
+    opacity: 1;
+}
+
+#unfocus {
+    position: relative;
+    background-color: #f2f2f2; /* near-white base */
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    height: 50px;
+    cursor: pointer;
+    color: #333; /* darker text for contrast */
+    overflow: hidden;
+}
+
+/* Gradient overlay from bottom */
+#unfocus::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, lightblue, #f2f2f2);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 0; /* gradient behind text */
+}
+
+#unfocus span {
+    position: relative;
+    z-index: 1; /* text above gradient */
+}
+
+#unfocus:hover::before {
+    opacity: 1;
+}

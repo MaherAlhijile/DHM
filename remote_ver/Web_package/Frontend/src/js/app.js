@@ -99,12 +99,12 @@ async function move_motor(motor_number, steps, latency_ms, direction) {
 
 
 
-document.getElementById("up").addEventListener("click", () => {
+document.getElementById("top").addEventListener("click", () => {
     console.log("Up button clicked");
 
 });
 
-document.getElementById("down").addEventListener("click", () => {
+document.getElementById("bottom").addEventListener("click", () => {
     console.log("Down button clicked");
 });
 
@@ -116,7 +116,8 @@ document.getElementById("right").addEventListener("click", () => {
     console.log("Right button clicked");
 });
 
-document.getElementById("home").addEventListener("click", () => {
+
+document.getElementById("center").addEventListener("click", () => {
     console.log("Home button clicked");
 
 });
