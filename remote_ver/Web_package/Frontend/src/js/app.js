@@ -10,8 +10,10 @@ let imageCaptured = null
 let refCaptured = null
 let stream = null;
 
-ip = "140.105.28.40"
-port = "8000"
+// ip = "140.105.28.40"
+// port = "8000"
+let ip = "";
+let port = "";
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -53,6 +55,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+async function refreshConnectionParams() {
+    ip = document.getElementById("ipAddress").value.trim();
+    port = document.getElementById("port").value.trim();
+    if (!ip || !port) throw new Error("IP or Port is missing!");
+}
+
 async function selectROI(x1, y1, x2, y2) {
     try {
         startProcessingOverlay()
@@ -78,7 +86,7 @@ async function selectROI(x1, y1, x2, y2) {
 
 async function move_motor(motor_number, steps, latency_ms, direction) {
     try {
-
+        refreshConnectionParams()
         const response = await fetch("http://" + ip + ":" + port + "/move_motor_endpoint", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -244,6 +252,7 @@ center.addEventListener("click", () => {
 
 
 async function sendParams() {
+
     const formData = new FormData();
     formData.append("wavelength", document.getElementById("wavelength").value);
     formData.append("pixel_size", document.getElementById("pixelSize").value);
@@ -292,8 +301,8 @@ async function sendParams() {
 
 
     try {
-        startProcessingOverlay()
-
+        startProcessingOverlay();
+        refreshConnectionParams();
         const response = await fetch("http://" + ip + ":" + port + "/run_phase_difference", {
             method: "POST",
             body: formData
@@ -365,7 +374,9 @@ async function sendParams() {
 
 async function fetchSpectrum() {
     try {
-        startProcessingOverlay()
+        startProcessingOverlay();
+        refreshConnectionParams();
+
         const response = await fetch("http://" + ip + ":" + port + "/check_spectrum");
         const data = await response.json();
         if (data.error) {
@@ -391,7 +402,8 @@ async function fetchSpectrum() {
 //recieves information returned from backend after 3d computation
 async function fetch3DPlot() {
     try {
-        startProcessingOverlay()
+        startProcessingOverlay();
+        refreshConnectionParams();
 
         const response = await fetch("http://" + ip + ":" + port + "/compute_3d");
         const data = await response.json();
@@ -610,7 +622,8 @@ async function fetch1DPlot() {
     const y2 = Math.round(point2.y);
 
     try {
-        startProcessingOverlay()
+        startProcessingOverlay();
+        refreshConnectionParams();
 
         const response = await fetch("http://" + ip + ":" + port + "/compute_1d", {
             method: "POST",
@@ -662,7 +675,7 @@ async function fetch1DPlot() {
 
 async function selectROI(x1, y1, x2, y2) {
     try {
-
+        refreshConnectionParams();
         const response = await fetch("http://" + ip + ":" + port + "/select_roi", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -715,6 +728,7 @@ toggleCamera.addEventListener('click', () => {
 //camera
 async function initializeCamera() {
     try {
+        refreshConnectionParams();
         const res = await fetch("http://" + ip + ":" + port + "/start_camera");
         const data = await res.json();
         if (data.error) {
@@ -731,6 +745,7 @@ async function initializeCamera() {
 async function setExposure() {
     const exposureValue = document.getElementById("exposureInput").value;
     try {
+        refreshConnectionParams();
         const res = await fetch("http://" + ip + ":" + port + "/set_exposure", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -753,6 +768,7 @@ async function setExposure() {
 async function captureImage() {
     const type = document.getElementById("captureType").value; // "object" or "reference"
     try {
+        refreshConnectionParams();
         const res = await fetch("http://" + ip + ":" + port + "/capture_image", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -778,6 +794,7 @@ async function captureImage() {
 
 async function stopCamera() {
     try {
+        refreshConnectionParams();
         document.getElementById("cameraStream").src = "";  // Stop image
         await fetch("http://" + ip + ":" + port + "/stop_camera");
     } catch (error) {
