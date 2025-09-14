@@ -8,63 +8,38 @@ This repository contains two implementations of a Digital Holography Microscope 
 ---
 
 ## Prerequisites
+For both versions, make sure you have the following installed on your system:
+-Python 3.0+
+-pip (Python package manager)
+-Git (to clone the repository)
 
-If using the remote version, make sure to Setup a virtual envoriment in the Top-level of the local repository.
-start by typing the command
+For the remote version make sure an operating system installed on the Raspberry Pi
+
+---
+
+## Installation
+Start by cloning the repo into your local machine
+it has 3 directories: Remote & Local & Libs
+
+Before starting make sure to setup a virtual environment in the top-level of directory. You can create and activate the environment by typing the commands:
 ```bash
 python -m venv .venv
-````
-then activate the envorimanet using
-```bash
 source .venv/bin/activate
 ```
-This will ensure no conflict will happen and the software will run smoothly
 
-Then download and install pylon library from https://www.baslerweb.com/en/downloads/software/2907135243/ , give sudo permit to install USB rules, in case of doubt, follow `Install.txt` instructions.
-
-Finally, we install the motors depenccies. in the server side (must be linux) install the WiringPi library for controling the motors
-first clone it
+Now you can start installing the required dependencies for both local & remote versions using the command:
 ```bash
-git clone https://github.com/WiringPi/WiringPi.git
-```
-then enter the directory
-```bash
-cd WiringPi
-```
-and build the libaray
-```bash
-./build
-```
-now check if it was successfully installed
-```bash
-gpio -v
+pip install -r requirements.txt 
 ```
 
-Now we have to install the python wrapper, clone the following repo
-
+For the remote versions the motors movement library should be installed, access the library directory and install it by typing the commands
 ```bash
-git clone https://github.com/sultanf110/stepper_motor.git
-```
-then enter the dirctory and install
-```bash
+cd libs/stepper_motor
 pip install .
 ```
 
-For both versions, make sure you have the following installed on your system:
-- an operating system installed on the Raspberry Pi
-- Python **3.0+**
-- **pip** (Python package manager)
-- **Git** (to clone the repository)
-- an IDE 
-
-Start by typing the following command in the terminal:
-```bash
-pip install -r requirements.txt
-```
-Which will install all dependencies for both local and remote (front & back ends) versions
-
-
 ---
+
 
 ## Local Version
 This is a standalone desktop software designed to work with a DHM (Digital Holographic Microscopy) add-on for regular microscopes.  
