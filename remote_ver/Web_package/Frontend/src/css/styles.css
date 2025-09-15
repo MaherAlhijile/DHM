@@ -13,6 +13,56 @@
     box-sizing: border-box;
   }
 
+  .container {
+    display: flex;
+    gap: 24px;
+    max-width: 90%;
+    margin: 0 auto;
+    height: 100%;
+    justify-content: center;
+    align-items: stretch;
+    /* make children stretch vertically */
+  }
+
+  .main-header {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    /* space between elements */
+    font-family: 'Anek Latin', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 20px 0;
+    color: #2d3a73;
+  }
+
+  .main-header h1 {
+    margin: 0;
+  }
+
+  .main-header .logo {
+    height: 100px;
+    /* adjust size as needed */
+    object-fit: contain;
+  }
+
+  footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9rem;
+    color: #666;
+    background-color: transparent;
+  }
+
+  .page-wrapper {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    /* full viewport height */
+  }
+
 
   #processingOverlay {
     /* hidden by default */
@@ -61,24 +111,16 @@
     }
   }
 
+
+  
   body {
     margin: 0;
     padding: 16px;
     height: 100vh;
     background: linear-gradient(135deg, #eef2f7 0%, #A1C2BD 60%);
-    color: #1f2d3a;
+    color: #2d3a73;
   }
 
-  .container {
-    display: flex;
-    gap: 24px;
-    max-width: 90%;
-    margin: 0 auto;
-    height: 100%;
-    justify-content: center;
-    align-items: stretch;
-    /* make children stretch vertically */
-  }
 
   .left,
   .right {
@@ -209,7 +251,7 @@
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 600;
-    transition: filter .2s;
+    transition: filter 0.2s, transform 0.2s, background 0.2s;
   }
 
   button.secondary {
@@ -221,7 +263,13 @@
     font-size: 0.75rem;
   }
 
-
+  /* Hover effect for all buttons except directional pad and focus */
+  button:not(.dirctional-btn):not(#focus):not(#unfocus):not(#center):hover {
+    filter: brightness(1.2);
+    /* slightly lighten the button */
+    transform: scale(1.05);
+    /* slight enlargement */
+  }
 
   .small-text {
     font-size: 0.7rem;
@@ -267,8 +315,8 @@
     gap: 12px;
   }
 
-  .controls input{
-    margin: 0px 0px  10px 10px;
+  .controls input {
+    margin: 0px 0px 10px 10px;
   }
 
 
@@ -814,24 +862,26 @@
     border-radius: 10px;
     overflow: hidden;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    user-select: none;
+
   }
 
 
+  /* Focus button */
   #focus {
     position: relative;
+    /* Needed for ::before positioning */
     background-color: #f2f2f2;
-    /* near-white base */
+    /* base color */
     border: none;
     border-radius: 10px;
     width: 100%;
     height: 50px;
     cursor: pointer;
     color: #333;
-    /* darker text for contrast */
     overflow: hidden;
   }
 
-  /* Gradient overlay from top */
   #focus::before {
     content: '';
     position: absolute;
@@ -853,25 +903,23 @@
     /* text above gradient */
   }
 
-  #focus:hover::besfore {
+  #focus:hover::before {
     opacity: 1;
   }
 
+  /* Unfocus button */
   #unfocus {
     position: relative;
     background-color: #f2f2f2;
-    /* near-white base */
     border: none;
     border-radius: 10px;
     width: 100%;
     height: 50px;
     cursor: pointer;
     color: #333;
-    /* darker text for contrast */
     overflow: hidden;
   }
 
-  /* Gradient overlay from bottom */
   #unfocus::before {
     content: '';
     position: absolute;
@@ -890,7 +938,6 @@
   #unfocus span {
     position: relative;
     z-index: 1;
-    /* text above gradient */
   }
 
   #unfocus:hover::before {
