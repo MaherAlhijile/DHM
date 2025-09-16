@@ -345,5 +345,3 @@ def move_motor_endpoint(params: dict):
 # Calculate absolute path to frontend folder
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "Frontend", "src")
 app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
-
-

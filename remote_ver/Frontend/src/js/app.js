@@ -9,9 +9,9 @@ let point2 = null;
 let imageCaptured = null
 let refCaptured = null
 let stream = null;
+// Auto-detect backend from the page URL; allow user override from localStorage
+let apiBase = localStorage.getItem("apiBase") || `${window.location.protocol}//${window.location.host}`;
 
-ip = "140.105.28.40"
-port = "8000"
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -28,12 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("openCam").addEventListener("click", (e) => { e.preventDefault(); initializeCamera(); });
 
-
     document.getElementById("setExposureBtn").addEventListener("click", (e) => { e.preventDefault(); setExposure(); });
     document.getElementById("captureImageBtn").addEventListener("click", (e) => { e.preventDefault(); captureImage(); });
     document.getElementById("stopCam").addEventListener("click", (e) => { e.preventDefault(); stopCamera(); });
-
-
 
     document.getElementById("imageFile").addEventListener("change", () => console.log("Object image selected"));
     document.getElementById("refFile").addEventListener("change", () => console.log("Reference image selected"));
@@ -51,35 +48,46 @@ document.addEventListener("DOMContentLoaded", function () {
         details.style.display = (details.style.display === 'flex') ? 'none' : 'flex';
     });
 
+    applyApiBaseToUI();
+    document.getElementById("ipAddress")?.addEventListener("change", setApiBaseFromInputs);
+    document.getElementById("port")?.addEventListener("change", setApiBaseFromInputs);
 });
 
-async function selectROI(x1, y1, x2, y2) {
-    try {
-        const response = await fetch("http://"+ ip +":"+ port +"/select_roi", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ x1, y1, x2, y2 })
-        });
-        const data = await response.json();
-        if (data.error) {
-            alert(data.error);
-        } else {
+//setting IP Address
+function applyApiBaseToUI() {
+  try {
+    const url = new URL(apiBase);
+    const ipEl = document.getElementById("ipAddress");
+    const portEl = document.getElementById("port");
+    if (ipEl)  ipEl.value  = url.hostname || "";
+    if (portEl) portEl.value = url.port || "8080"; //  usual default 
+  } catch {}
+}
 
+function setApiBaseFromInputs() {
+  const ipEl = document.getElementById("ipAddress");
+  const portEl = document.getElementById("port");
+  const ip = (ipEl?.value || "").trim();
+  const port = (portEl?.value || "").trim(); // empty means default port
+  if (!ip) return; // don’t change if blank
+  apiBase = port ? `http://${ip}:${port}` : `http://${ip}`;
+  localStorage.setItem("apiBase", apiBase);
 
-        }
-    } catch (error) {
-        console.error("Error selecting ROI:", error);
-        alert("Error selecting ROI: " + error.message);
-    }
+  // Refresh live stream if open
+  const stream = document.getElementById("cameraStream");
+  if (stream) stream.src = `${apiBase}/camera_feed`;
 }
 
 
+
+//Motors
+
 async function move_motor(motor_number, steps, latency_ms, direction) {
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/move_motor_endpoint", {
+        const response = await fetch(`${apiBase}/move_motor_endpoint`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ x1, y1, x2, y2 })
+            body: JSON.stringify({motor_number, steps, latency_ms, direction })
         });
         const data = await response.json();
         if (data.error) {
@@ -118,6 +126,31 @@ document.getElementById("home").addEventListener("click", () => {
 
 });
 
+// Directional pad logic
+const quads = document.querySelectorAll(".quad");
+const center = document.querySelector(".center");
+
+function highlight(dir) {
+    quads.forEach(q => q.classList.toggle("active", q.dataset.dir === dir));
+}
+
+quads.forEach(q => {
+    q.addEventListener("click", () => {
+        const d = q.dataset.dir;
+        padStatus.textContent = `Direction: ${d}`;
+        highlight(d);
+        // TODO: send command to backend or move stage
+        console.log("Clicked", d);
+    });
+});
+
+center.addEventListener("click", () => {
+    padStatus.textContent = "Home";
+    highlight(null);
+    console.log("Home pressed");
+});
+
+//ROI Selection
 
 function startROISelection() {
     if (!image.psi) {
@@ -194,31 +227,42 @@ function receiveROI(coords) {
     selectROI(coords.x1, coords.y1, coords.x2, coords.y2);
 }
 
-// Directional pad logic
-const quads = document.querySelectorAll(".quad");
-const center = document.querySelector(".center");
+async function selectROI(x1, y1, x2, y2) {
+    try {
+        const response = await fetch(`${apiBase}/select_roi`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ x1, y1, x2, y2 })
+        });
+        const data = await response.json();
+        if (data.error) {
+            alert(data.error);
+        } else {
+            // Store the ROI image for display or selection
+            image.roi = data.roi_image;
 
-function highlight(dir) {
-    quads.forEach(q => q.classList.toggle("active", q.dataset.dir === dir));
+            // Optional: display the ROI image
+            document.getElementById("roiOutput").innerHTML = `
+              <img src="data:image/png;base64,${data.roi_image}" style="max-width:100%; border:1px solid #ccc;">
+            `;
+
+        }
+    } catch (error) {
+        console.error("Error selecting ROI:", error);
+        alert("Error selecting ROI: " + error.message);
+    }
 }
 
-quads.forEach(q => {
-    q.addEventListener("click", () => {
-        const d = q.dataset.dir;
-        padStatus.textContent = `Direction: ${d}`;
-        highlight(d);
-        // TODO: send command to backend or move stage
-        console.log("Clicked", d);
-    });
-});
+const toggleBtn = document.getElementById('toggleBtn');
+const slideDiv = document.getElementById('slideDiv');
 
-center.addEventListener("click", () => {
-    padStatus.textContent = "Home";
-    highlight(null);
-    console.log("Home pressed");
+toggleBtn.addEventListener('click', () => {
+    slideDiv.classList.toggle('active');
 });
 
 
+
+// send parameters to backend
 async function sendParams() {
     const formData = new FormData();
     formData.append("wavelength", document.getElementById("wavelength").value);
@@ -268,7 +312,7 @@ async function sendParams() {
 
 
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/run_phase_difference", {
+        const response = await fetch(`${apiBase}/run_phase_difference`, {
             method: "POST",
             body: formData
         });
@@ -333,30 +377,11 @@ async function sendParams() {
 }
 
 
-async function fetchSpectrum() {
-    try {
-        const response = await fetch("http://"+ ip +":"+ port +"/check_spectrum");
-        const data = await response.json();
-        if (data.error) {
-            alert(data.error);
-            return;
-        }
 
-        alert(data.imageArray_shiftft, data.mask_bool, data.max_y, data.max_x)
-        const spectrumOutput = document.getElementById("spectrumOutput")
-        spectrumOutput.innerHTML = `<div id="spectrumOutput" style="width:100%; height:100%;"></div>`;
-
-    } catch (error) {
-        console.error("Error:", error);
-        alert("Error: " + error.message);
-    }
-
-
-}
 //recieves information returned from backend after 3d computation
 async function fetch3DPlot() {
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/compute_3d");
+        const response = await fetch(`${apiBase}/compute_3d`);
         const data = await response.json();
         if (data.error) {
             alert(data.error);
@@ -569,7 +594,7 @@ async function fetch1DPlot() {
     const y2 = Math.round(point2.y);
 
     try {
-        const response = await fetch("http://"+ ip +":"+ port +"/compute_1d", {
+        const response = await fetch(`${apiBase}/compute_1d`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -613,38 +638,7 @@ async function fetch1DPlot() {
 }
 
 
-async function selectROI(x1, y1, x2, y2) {
-    try {
-        const response = await fetch("http://"+ ip +":"+ port +"/select_roi", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ x1, y1, x2, y2 })
-        });
-        const data = await response.json();
-        if (data.error) {
-            alert(data.error);
-        } else {
-            // Store the ROI image for display or selection
-            image.roi = data.roi_image;
 
-            // Optional: display the ROI image
-            document.getElementById("roiOutput").innerHTML = `
-              <img src="data:image/png;base64,${data.roi_image}" style="max-width:100%; border:1px solid #ccc;">
-            `;
-
-        }
-    } catch (error) {
-        console.error("Error selecting ROI:", error);
-        alert("Error selecting ROI: " + error.message);
-    }
-}
-
-const toggleBtn = document.getElementById('toggleBtn');
-const slideDiv = document.getElementById('slideDiv');
-
-toggleBtn.addEventListener('click', () => {
-    slideDiv.classList.toggle('active');
-});
 
 
 
@@ -667,12 +661,13 @@ toggleCamera.addEventListener('click', () => {
 //camera
 async function initializeCamera() {
     try {
-        const res = await fetch("http://"+ ip +":"+ port +"/start_camera");
+        const res = await fetch(`${apiBase}/start_camera`);
         const data = await res.json();
         if (data.error) {
             alert("Failed to start camera: " + data.error);
         } else {
-            document.getElementById("cameraStream").src = "http://"+ ip +":"+ port +"/camera_feed";
+            document.getElementById("cameraStream").src = `${apiBase}/camera_feed`;
+
         }
     } catch (err) {
         alert("Error connecting to server: " + err.message);
@@ -683,7 +678,7 @@ async function initializeCamera() {
 async function setExposure() {
     const exposureValue = document.getElementById("exposureInput").value;
     try {
-        const res = await fetch("http://"+ ip +":"+ port +"/set_exposure", {
+        const res = await fetch(`${apiBase}/set_exposure`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ exposure: parseFloat(exposureValue) })
@@ -705,7 +700,7 @@ async function setExposure() {
 async function captureImage() {
     const type = document.getElementById("captureType").value; // "object" or "reference"
     try {
-        const res = await fetch("http://"+ ip +":"+ port +"/capture_image", {
+        const res = await fetch(`${apiBase}/capture_image`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ type: type })
@@ -731,10 +726,30 @@ async function captureImage() {
 async function stopCamera() {
     try {
         document.getElementById("cameraStream").src = "";  // Stop image
-        await fetch("http://"+ ip +":"+ port +"/stop_camera");
+        await fetch(`${apiBase}/stop_camera`);
     } catch (error) {
         console.error("Failed to stop camera on backend:", error);
     }
 }
 
+// chech spectrum removed
+async function fetchSpectrum() {
+    try {
+        const response = await fetch(`${apiBase}/check_spectrum`);
+        const data = await response.json();
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
 
+        alert(data.imageArray_shiftft, data.mask_bool, data.max_y, data.max_x)
+        const spectrumOutput = document.getElementById("spectrumOutput")
+        spectrumOutput.innerHTML = `<div id="spectrumOutput" style="width:100%; height:100%;"></div>`;
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error: " + error.message);
+    }
+
+
+}
