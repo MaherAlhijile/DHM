@@ -12,6 +12,13 @@ let stream = null;
 // Auto-detect backend from the page URL; allow user override from localStorage
 let apiBase = localStorage.getItem("apiBase") || `${window.location.protocol}//${window.location.host}`;
 
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
+=======
+// ip = "140.105.28.40"
+// port = "8000"
+let ip = "";
+let port = "";
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -53,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("port")?.addEventListener("change", setApiBaseFromInputs);
 });
 
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
 //setting IP Address
 function applyApiBaseToUI() {
   try {
@@ -63,6 +71,26 @@ function applyApiBaseToUI() {
     if (portEl) portEl.value = url.port || "8080"; //  usual default 
   } catch {}
 }
+=======
+async function refreshConnectionParams() {
+    ip = document.getElementById("ipAddress").value.trim();
+    port = document.getElementById("port").value.trim();
+    if (!ip || !port) throw new Error("IP or Port is missing!");
+}
+
+async function selectROI(x1, y1, x2, y2) {
+    try {
+        startProcessingOverlay()
+        const response = await fetch("http://" + ip + ":" + port + "/select_roi", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ x1, y1, x2, y2 })
+        });
+        const data = await response.json();
+        if (data.error) {
+            alert(data.error);
+        } else {
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
 
 function setApiBaseFromInputs() {
   const ipEl = document.getElementById("ipAddress");
@@ -73,9 +101,18 @@ function setApiBaseFromInputs() {
   apiBase = port ? `http://${ip}:${port}` : `http://${ip}`;
   localStorage.setItem("apiBase", apiBase);
 
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
   // Refresh live stream if open
   const stream = document.getElementById("cameraStream");
   if (stream) stream.src = `${apiBase}/camera_feed`;
+=======
+        }
+    } catch (error) {
+        console.error("Error selecting ROI:", error);
+        alert("Error selecting ROI: " + error.message);
+        stopProcessingOverlay()
+    }
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
 }
 
 
@@ -84,7 +121,12 @@ function setApiBaseFromInputs() {
 
 async function move_motor(motor_number, steps, latency_ms, direction) {
     try {
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
         const response = await fetch(`${apiBase}/move_motor_endpoint`, {
+=======
+        refreshConnectionParams()
+        const response = await fetch("http://" + ip + ":" + port + "/move_motor_endpoint", {
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({motor_number, steps, latency_ms, direction })
@@ -104,12 +146,12 @@ async function move_motor(motor_number, steps, latency_ms, direction) {
 
 
 
-document.getElementById("up").addEventListener("click", () => {
+document.getElementById("top").addEventListener("click", () => {
     console.log("Up button clicked");
 
 });
 
-document.getElementById("down").addEventListener("click", () => {
+document.getElementById("bottom").addEventListener("click", () => {
     console.log("Down button clicked");
 });
 
@@ -121,7 +163,8 @@ document.getElementById("right").addEventListener("click", () => {
     console.log("Right button clicked");
 });
 
-document.getElementById("home").addEventListener("click", () => {
+
+document.getElementById("center").addEventListener("click", () => {
     console.log("Home button clicked");
 
 });
@@ -151,6 +194,26 @@ center.addEventListener("click", () => {
 });
 
 //ROI Selection
+
+function startProcessingOverlay() {
+    const overlay = document.getElementById("processingOverlay");
+    const dots = document.getElementById("dots");
+    overlay.style.display = "flex";
+
+    let count = 0;
+    window.processingInterval = setInterval(() => {
+        count = (count + 1) % 4; // cycle 0-3
+        dots.textContent = ".".repeat(count);
+    }, 500); // change every 0.5s
+}
+
+function stopProcessingOverlay() {
+    const overlay = document.getElementById("processingOverlay");
+    overlay.style.display = "none";
+    clearInterval(window.processingInterval);
+    document.getElementById("dots").textContent = "";
+}
+
 
 function startROISelection() {
     if (!image.psi) {
@@ -264,6 +327,7 @@ toggleBtn.addEventListener('click', () => {
 
 // send parameters to backend
 async function sendParams() {
+
     const formData = new FormData();
     formData.append("wavelength", document.getElementById("wavelength").value);
     formData.append("pixel_size", document.getElementById("pixelSize").value);
@@ -312,7 +376,13 @@ async function sendParams() {
 
 
     try {
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
         const response = await fetch(`${apiBase}/run_phase_difference`, {
+=======
+        startProcessingOverlay();
+        refreshConnectionParams();
+        const response = await fetch("http://" + ip + ":" + port + "/run_phase_difference", {
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
             method: "POST",
             body: formData
         });
@@ -373,15 +443,56 @@ async function sendParams() {
     } catch (error) {
         console.error("Error:", error);
         alert("Error: " + error.message);
+        stopProcessingOverlay()
+    } finally {
+        // Hide overlay when done (success or error)
+        stopProcessingOverlay()
     }
 }
 
 
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
 
 //recieves information returned from backend after 3d computation
 async function fetch3DPlot() {
     try {
         const response = await fetch(`${apiBase}/compute_3d`);
+=======
+async function fetchSpectrum() {
+    try {
+        startProcessingOverlay();
+        refreshConnectionParams();
+
+        const response = await fetch("http://" + ip + ":" + port + "/check_spectrum");
+        const data = await response.json();
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        alert(data.imageArray_shiftft, data.mask_bool, data.max_y, data.max_x)
+        const spectrumOutput = document.getElementById("spectrumOutput")
+        spectrumOutput.innerHTML = `<div id="spectrumOutput" style="width:100%; height:100%;"></div>`;
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error: " + error.message);
+        stopProcessingOverlay()
+    } finally {
+        // Hide overlay when done (success or error)
+        stopProcessingOverlay()
+    }
+
+
+}
+//recieves information returned from backend after 3d computation
+async function fetch3DPlot() {
+    try {
+        startProcessingOverlay();
+        refreshConnectionParams();
+
+        const response = await fetch("http://" + ip + ":" + port + "/compute_3d");
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
         const data = await response.json();
         if (data.error) {
             alert(data.error);
@@ -407,6 +518,10 @@ async function fetch3DPlot() {
     } catch (error) {
         console.error("Error:", error);
         alert("Error: " + error.message);
+        stopProcessingOverlay()
+    } finally {
+        // Hide overlay when done (success or error)
+        stopProcessingOverlay()
     }
 }
 
@@ -594,7 +709,14 @@ async function fetch1DPlot() {
     const y2 = Math.round(point2.y);
 
     try {
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
         const response = await fetch(`${apiBase}/compute_1d`, {
+=======
+        startProcessingOverlay();
+        refreshConnectionParams();
+
+        const response = await fetch("http://" + ip + ":" + port + "/compute_1d", {
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -634,10 +756,31 @@ async function fetch1DPlot() {
     } catch (error) {
         console.error("1D Error:", error);
         alert("Failed to generate 1D plot");
+        stopProcessingOverlay()
+    } finally {
+        // Hide overlay when done (success or error)
+        stopProcessingOverlay()
     }
 }
 
 
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
+=======
+async function selectROI(x1, y1, x2, y2) {
+    try {
+        refreshConnectionParams();
+        const response = await fetch("http://" + ip + ":" + port + "/select_roi", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ x1, y1, x2, y2 })
+        });
+        const data = await response.json();
+        if (data.error) {
+            alert(data.error);
+        } else {
+            // Store the ROI image for display or selection
+            image.roi = data.roi_image;
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
 
 
 
@@ -661,13 +804,22 @@ toggleCamera.addEventListener('click', () => {
 //camera
 async function initializeCamera() {
     try {
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
         const res = await fetch(`${apiBase}/start_camera`);
+=======
+        refreshConnectionParams();
+        const res = await fetch("http://" + ip + ":" + port + "/start_camera");
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
         const data = await res.json();
         if (data.error) {
             alert("Failed to start camera: " + data.error);
         } else {
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
             document.getElementById("cameraStream").src = `${apiBase}/camera_feed`;
 
+=======
+            document.getElementById("cameraStream").src = "http://" + ip + ":" + port + "/camera_feed";
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
         }
     } catch (err) {
         alert("Error connecting to server: " + err.message);
@@ -678,7 +830,12 @@ async function initializeCamera() {
 async function setExposure() {
     const exposureValue = document.getElementById("exposureInput").value;
     try {
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
         const res = await fetch(`${apiBase}/set_exposure`, {
+=======
+        refreshConnectionParams();
+        const res = await fetch("http://" + ip + ":" + port + "/set_exposure", {
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ exposure: parseFloat(exposureValue) })
@@ -700,7 +857,12 @@ async function setExposure() {
 async function captureImage() {
     const type = document.getElementById("captureType").value; // "object" or "reference"
     try {
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
         const res = await fetch(`${apiBase}/capture_image`, {
+=======
+        refreshConnectionParams();
+        const res = await fetch("http://" + ip + ":" + port + "/capture_image", {
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ type: type })
@@ -725,8 +887,13 @@ async function captureImage() {
 
 async function stopCamera() {
     try {
+        refreshConnectionParams();
         document.getElementById("cameraStream").src = "";  // Stop image
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
         await fetch(`${apiBase}/stop_camera`);
+=======
+        await fetch("http://" + ip + ":" + port + "/stop_camera");
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
     } catch (error) {
         console.error("Failed to stop camera on backend:", error);
     }
@@ -742,6 +909,7 @@ async function fetchSpectrum() {
             return;
         }
 
+<<<<<<< HEAD:remote_ver/Frontend/src/js/app.js
         alert(data.imageArray_shiftft, data.mask_bool, data.max_y, data.max_x)
         const spectrumOutput = document.getElementById("spectrumOutput")
         spectrumOutput.innerHTML = `<div id="spectrumOutput" style="width:100%; height:100%;"></div>`;
@@ -753,3 +921,7 @@ async function fetchSpectrum() {
 
 
 }
+=======
+
+
+>>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/js/app.js
