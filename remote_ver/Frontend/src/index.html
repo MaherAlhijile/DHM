@@ -27,76 +27,25 @@
     </div>
 
     <header class="main-header">
-      <img src="resources/logo1.svg" alt="Logo 1" class="logo">
+      <img src="../resources/logo1.svg" alt="Logo 1" class="logo">
       <h1>Digital Holographic Microscope Web Interface</h1>
+      <nav class="nav-bar">
+        <ul>
+          <li> <button onclick="openPopup('popup1')">Microscope Parameters</button></li>
+          <li><button onclick="openPopup('popup2')">Communication Parameters</button></li>
+        </ul>
+      </nav>
     </header>
+
+
+
 
     <!-- row 2: main content -->
     <div class="container">
       <!-- LEFT PANEL -->
       <div class="left">
-        <!-- Configuration -->
-        <div class="section" id="config">
-          <h2>Configuration</h2>
-          <div class="row">
-            <button onclick="openPopup('popup1')">Microscope Parameters</button>
-            <button onclick="openPopup('popup2')">Communication Parameters</button>
-          </div>
-        </div>
-
-<<<<<<< HEAD:remote_ver/Frontend/src/index.html
-      <!-- Popup 2 -->
-      <div class="popup" id="popup2" onclick="closePopup(event, 'popup2')">
-        <div class="popup-content" onclick="event.stopPropagation()">
-          <button class="close-btn" onclick="closePopupById('popup2')">X</button>
-          <h2>Connection Parameters</h2>
-          <div class="row">
-            <div class="field">
-              <label for="ipAddress">IP Address</label>
-              <input id="ipAddress" type="text" placeholder="192.168.1.121" />
-            </div>
-            <div class="field">
-              <label for="port">Port</label>
-              <input id="port" type="number" placeholder="8080" />
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="field">
-              <label for="connectionType">Connection Type</label>
-              <select id="connectionType">
-                <option value="local">Local</option>
-                <option value="remote">Remote</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
-      <div class="section" id="images">
-        <h2>Images</h2>
-        <div class="row">
-          <label>Object Image:</label>
-          <input type="file" id="imageFile" accept="image/*"><br>
-          <label>Reference Image:</label>
-          <input type="file" id="refFile" accept="image/*">
-        </div>
-      </div>
-
-
-
-
-      <div class="camera-output" id="cameraOutput">
-
-        <h4>Captured Output</h4>
-        <div class="output-images" id="outputImages">
-
-          <div class="smallOutput">
-            <!-- <div class="output-group">
-              <div class="output-box" id="spectrumOutput">
-                <span>Spectrum</span>
-=======
         <!-- Popup 1 -->
         <div class="popup" id="popup1" onclick="closePopup(event, 'popup1')">
           <div class="popup-content" onclick="event.stopPropagation()">
@@ -106,7 +55,6 @@
               <div class="field">
                 <label for="wavelength">Wavelength (µm)</label>
                 <input id="wavelength" type="number" min="0" value="0.650" step="0.001" />
->>>>>>> 62408f275def25b82627b35416ec71183e8959a8:remote_ver/Web_package/Frontend/src/index.html
               </div>
               <div class="field">
                 <label for="magnification">Magnification</label>
@@ -170,56 +118,78 @@
           </div>
         </div>
 
-        <!-- Images -->
         <div class="section" id="images">
           <h2>Images</h2>
           <div class="row">
-            <label>Object Image:</label>
-            <input type="file" id="imageFile" accept="image/*"><br>
-            <label>Reference Image:</label>
-            <input type="file" id="refFile" accept="image/*">
+
+            <div class="output-images" id="outputImages">
+              <!-- Object Image -->
+              <div class="output-group">
+                <span id="objectLabel">None selected</span>
+                <div class="output-box" id="objectImageOutput">
+                  <span id="opjectImagePlaceholder">Object Image</span>
+
+                </div>
+                <label class="custom-file-upload styled-btn" for="imageFile">Load Object Image</label>
+                <input type="file" id="imageFile" accept="image/*">
+              </div>
+
+              <!-- Reference Image -->
+              <div class="output-group">
+                <span id="referenceLabel">None selected</span>
+                <div class="output-box" id="referenceImageOutput">
+                  <span id="referenceImagePlaceholder">Reference Image</span>
+                </div>
+                <label class="custom-file-upload styled-btn" for="refFile">Load Reference Image</label>
+                <input type="file" id="refFile" accept="image/*">
+              </div>
+
+            </div>
+
           </div>
         </div>
+
+
 
         <!-- Captured Output -->
         <div class="camera-output" id="cameraOutput">
           <h4>Captured Output</h4>
           <div class="output-images" id="outputImages">
-            <div class="smallOutput">
-              <div class="output-group">
-                <div class="output-box" id="phaseOutput">
-                  <span>Phase Difference</span>
-                  <div style="position:relative; display:inline-block;">
-                    <img id="phaseImage" style="max-width:100%; border:1px solid #ccc;">
-                    <canvas id="roiCanvas" style="position:absolute; left:0; top:0;"></canvas>
-                  </div>
-                </div>
-                <button id="phaseDiff" type="button">Phase Difference</button>
+
+            <div class="output-group">
+              <div class="output-box" id="phaseOutput">
+                <span>Phase Difference</span>
               </div>
-              <div class="output-group">
-                <div class="output-box" id="roiOutput">
-                  <span>Region of Interest</span>
-                </div>
-                <button id="selectRoiBtn" type="button">Select ROI</button>
-              </div>
+              <button id="phaseDiff" type="button">Phase Difference</button>
             </div>
-            <div class="bigOutput">
-              <div class="output-group">
-                <div class="output-box" id="output3D">
-                  <span>3D</span>
-                </div>
-                <button id="3dbtn">3D profile</button>
+
+            <div class="output-group">
+              <div class="output-box" id="roiOutput">
+                <span>Region of Interest</span>
               </div>
-              <div class="output-group">
-                <div class="output-box" id="output1D">
-                  <span>1D</span>
-                </div>
-                <button id="1dbtn">1D profile</button>
+              <button id="selectRoiBtn" type="button">Select ROI</button>
+            </div>
+
+
+            <div class="output-group">
+              <div class="output-box" id="output3D">
+                <span>3D</span>
               </div>
+              <button id="3dbtn">3D profile</button>
+            </div>
+
+            <div class="output-group">
+              <div class="output-box" id="output1D">
+                <span>1D</span>
+              </div>
+              <button id="1dbtn">1D profile</button>
             </div>
           </div>
         </div>
       </div>
+
+
+
 
       <!-- RIGHT PANEL -->
       <div class="right">
@@ -228,7 +198,7 @@
             <div id="cameraContainer" style="margin-top: 20px;">
               <h3>Live Camera</h3>
               <div class="cameraBox">
-                <img id="cameraStream" src="./resources/no-cam.svg" style="max-width: 100%;" />
+                <img id="cameraStream" src="../resources/no-cam.svg" style="max-width: 100%;" />
               </div>
             </div>
 
@@ -289,6 +259,60 @@
       document.getElementById(id).style.display = 'none';
     }
   </script>
+
+  <script>
+    function displayImageInPlotly(imgSrc, divId) {
+      Plotly.newPlot(divId, [{
+        type: 'image',
+        source: imgSrc,
+        x: [0, 1],
+        y: [0, 1],
+        xref: 'x',
+        yref: 'y',
+        sizing: 'contain',
+        layer: 'below'
+      }], {
+        margin: { t: 0, b: 0, l: 0, r: 0 },
+        autosize: false,
+        width: document.getElementById(divId).clientWidth,
+        height: document.getElementById(divId).clientHeight
+      }, {
+        staticPlot: false  // disables zoom/pan interactions
+      });
+    }
+
+    // Object Image
+    const objectInput = document.getElementById('imageFile');
+    objectInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        displayImageInPlotly(event.target.result, 'objectImageOutput');
+        document.getElementById('objectLabel').textContent = file.name;
+        document.getElementById('opjectImagePlaceholder').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Reference Image
+    const refInput = document.getElementById('refFile');
+    refInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        displayImageInPlotly(event.target.result, 'referenceImageOutput');
+        document.getElementById('referenceLabel').textContent = file.name;
+        document.getElementById('referenceImagePlaceholder').style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    });
+  </script>
+
+
+
+
 </body>
 
 </html>
