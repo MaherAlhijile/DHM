@@ -529,6 +529,38 @@
     align-items: center;
   }
 
+  .output-images-vertical {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* default: 2 columns */
+    grid-template-rows: auto;
+    gap: 16px;
+    width: 100%;
+    /* fill container */
+    max-width: 1920px;
+    box-sizing: border-box;
+  }
+
+  .output-images-vertical .output-box {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid #ccc;
+    border-radius: var(--radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Switch to 1 column when width is 90% of 2k screen (~1728px) */
+  @media (min-width: 3000px) {
+    .output-images-vertical {
+      grid-template-columns: 1fr;
+      /* 1 column */
+      grid-template-rows: auto;
+    }
+  }
+
+
   .output-box {
     background-color: #f0f0f0;
     border: 1px solid #ccc;
@@ -981,13 +1013,15 @@
     background: #ffffff;
     border-bottom: 1px solid #d1d9e6;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-
+    margin-bottom: 30px;
     position: sticky;
     /* stick to top */
     top: 0;
     /* distance from top */
     z-index: 1000;
     /* ensure it’s above other elements */
+    padding-left: 30vh;
+    padding-right: 30vh;
   }
 
   .main-header .logo {

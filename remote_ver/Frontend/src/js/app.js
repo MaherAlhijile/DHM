@@ -27,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document.getElementById("openCam").addEventListener("click", (e) => { e.preventDefault(); initializeCamera(); });
-
     document.getElementById("setExposureBtn").addEventListener("click", (e) => { e.preventDefault(); setExposure(); });
     document.getElementById("captureImageBtn").addEventListener("click", (e) => { e.preventDefault(); captureImage(); });
     document.getElementById("stopCam").addEventListener("click", (e) => { e.preventDefault(); stopCamera(); });
@@ -788,3 +787,7 @@ async function fetchSpectrum() {
 
 
 }
+
+
+
+

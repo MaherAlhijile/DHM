@@ -15,7 +15,6 @@ from tkinter import messagebox
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from pypylon import pylon
 import cv2
-from motorctrl import call_motor_ctrl
 
 # Global config variables (initialized with None or default values)
 _pixel_size_var = 2
@@ -347,6 +346,3 @@ def select_roi(self, calledFromFunction=False):
             plt.show()
     
             return reduce_noise(self.roi)
-
-def move_motor(motor_number, steps, latency_ms, direction):
-    call_motor_ctrl(motor_number, steps, latency_ms, direction)

@@ -3,7 +3,6 @@ import cv2
 import io
 from PIL import Image
 import json
-
 from typing import Optional
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,14 +13,12 @@ import io
 from sys_functions import get_params, run_phase_difference
 from fastapi.staticfiles import StaticFiles
 import os
-
 import cv2
 import base64
 from pydantic import BaseModel
-
 import plotly.graph_objs as go
 import plotly.io as pio
-from sys_functions import (move_motor, compute_3d_thickness, get_phase_difference, check_spectrum, reduce_noise, compute_1d_thickness)
+from sys_functions import (compute_3d_thickness, get_phase_difference, check_spectrum, reduce_noise, compute_1d_thickness)
 
 
 app = FastAPI()
@@ -324,24 +321,21 @@ async def stop_camera():
         return {"error": str(e)}
 
 
+
+
+
 @app.post("/move_motor")
-def move_motor_endpoint(params: dict):
-    try:
-        motor_number = int(params["motor_number"])
-        steps = int(params["steps"])
-        latency_ms = int(params["latency_ms"])
-        direction = int(params["direction"])  # only if direction is numeric; otherwise keep as string
-
-        # Call your motor function
-        move_motor(motor_number, steps, latency_ms, direction)
-
-        return {"status": "success", "message": f"Motor {motor_number} moved {steps} steps."}
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
-
-
-
-
-# Calculate absolute path to frontend folder
-frontend_path = os.path.join(os.path.dirname(__file__), "..", "Frontend", "src")
-app.mount("/", StaticFiles(directory=frontend_path, html=True), name="frontend")
+async def move_motor(
+    motor_number: int = Form(...),
+    steps: int = Form(...),
+    latency_ms: int = Form(...),
+    direction: int = Form(...)
+):
+    # Here you would normally move the motor
+    return {
+        "status": "ok",
+        "motor_number": motor_number,
+        "steps": steps,
+        "latency_ms": latency_ms,
+        "direction": direction
+    }

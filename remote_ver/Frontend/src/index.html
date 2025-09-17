@@ -27,6 +27,7 @@
     </div>
 
     <header class="main-header">
+
       <img src="../resources/logo1.svg" alt="Logo 1" class="logo">
       <h1>Digital Holographic Microscope Web Interface</h1>
       <nav class="nav-bar">
@@ -35,6 +36,7 @@
           <li><button onclick="openPopup('popup2')">Communication Parameters</button></li>
         </ul>
       </nav>
+      
     </header>
 
 
@@ -122,7 +124,7 @@
           <h2>Images</h2>
           <div class="row">
 
-            <div class="output-images" id="outputImages">
+            <div class="output-images-vertical" id="outputImages">
               <!-- Object Image -->
               <div class="output-group">
                 <span id="objectLabel">None selected</span>
@@ -165,7 +167,7 @@
 
             <div class="output-group">
               <div class="output-box" id="roiOutput">
-                <span>Region of Interest</span>
+                <span id="xxx">Region of Interest</span>
               </div>
               <button id="selectRoiBtn" type="button">Select ROI</button>
             </div>
@@ -246,69 +248,14 @@
     </footer>
   </div>
 
-  <script src="js/app.js"></script>
-  <script src="js/imagesSaver.js"></script>
-  <script>
-    function openPopup(id) {
-      document.getElementById(id).style.display = 'flex';
-    }
-    function closePopup(event, id) {
-      document.getElementById(id).style.display = 'none';
-    }
-    function closePopupById(id) {
-      document.getElementById(id).style.display = 'none';
-    }
-  </script>
+  <script src="js/functions.js"></script>
+  <script src="js/display.js"></script>
+  <script src="js/camera.js"></script>
+  <script src="js/communication.js"></script>
+  <script src="js/motors.js"></script>
 
-  <script>
-    function displayImageInPlotly(imgSrc, divId) {
-      Plotly.newPlot(divId, [{
-        type: 'image',
-        source: imgSrc,
-        x: [0, 1],
-        y: [0, 1],
-        xref: 'x',
-        yref: 'y',
-        sizing: 'contain',
-        layer: 'below'
-      }], {
-        margin: { t: 0, b: 0, l: 0, r: 0 },
-        autosize: false,
-        width: document.getElementById(divId).clientWidth,
-        height: document.getElementById(divId).clientHeight
-      }, {
-        staticPlot: false  // disables zoom/pan interactions
-      });
-    }
 
-    // Object Image
-    const objectInput = document.getElementById('imageFile');
-    objectInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        displayImageInPlotly(event.target.result, 'objectImageOutput');
-        document.getElementById('objectLabel').textContent = file.name;
-        document.getElementById('opjectImagePlaceholder').style.display = 'none';
-      };
-      reader.readAsDataURL(file);
-    });
-
-    // Reference Image
-    const refInput = document.getElementById('refFile');
-    refInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        displayImageInPlotly(event.target.result, 'referenceImageOutput');
-        document.getElementById('referenceLabel').textContent = file.name;
-        document.getElementById('referenceImagePlaceholder').style.display = 'none';
-      };
-      reader.readAsDataURL(file);
-    });
-  </script>
+ 
 
 
 
