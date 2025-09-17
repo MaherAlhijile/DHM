@@ -32,8 +32,12 @@
       <h1>Digital Holographic Microscope Web Interface</h1>
       <nav class="nav-bar">
         <ul>
-          <li> <button onclick="openPopup('popup1')">Microscope Parameters</button></li>
-          <li><button onclick="openPopup('popup2')">Communication Parameters</button></li>
+          <li> <button onclick="openPopup('popup1')" class="styled-btn">Microscope Parameters</button></li>
+          <li><button onclick="openPopup('popup2')" class="styled-btn">Communication Parameters</button></li>
+          <li><button id="themeToggle" class="styled-btn">🌙</button></li>
+
+          
+
         </ul>
       </nav>
 
@@ -222,10 +226,18 @@
               <div class="movment-container">
                 <div class="o-pad">
                   <div class="square">
-                    <button id="top" class="dirctional-btn"><p id="topText">▲</p></button>
-                    <button id="right" class="dirctional-btn"><p id="rightText">▶</p></button>
-                    <button id="left" class="dirctional-btn"><p id="leftText">◀</p></button>
-                    <button id="bottom" class="dirctional-btn"><p id="bottomText">▼</p></button>
+                    <button id="top" class="dirctional-btn">
+                      <p id="topText">▲</p>
+                    </button>
+                    <button id="right" class="dirctional-btn">
+                      <p id="rightText">▶</p>
+                    </button>
+                    <button id="left" class="dirctional-btn">
+                      <p id="leftText">◀</p>
+                    </button>
+                    <button id="bottom" class="dirctional-btn">
+                      <p id="bottomText">▼</p>
+                    </button>
                   </div>
                   <button id="center">🏠︎</button>
                   <div class="circle"></div>
@@ -241,6 +253,8 @@
         </div>
       </div>
     </div>
+
+
 
     <!-- row 3: footer -->
     <footer class="project-footer">
