@@ -83,9 +83,9 @@
 
 
     /*******************************************************************************/
-
     .normalText {
       color: var(--normalText);
+      font-weight: bold;
     }
 
     .cameraButton {
@@ -113,7 +113,9 @@
 
       display: flex;
       align-items: center;
-      justify-content: flex-start;
+      /* vertically center all children */
+      justify-content: space-between;
+      /* h1 on left, nav on right */
       gap: 12px;
       padding: 12px 30vh;
       margin: 0 0 30px 0;
@@ -136,7 +138,6 @@
       font-weight: 700;
       color: var(--headerColor);
       margin: 0;
-      text-align: left;
     }
 
     .nav-bar {
@@ -149,6 +150,14 @@
       margin: 0;
       padding: 0;
       list-style: none;
+      align-items: center;
+      /* vertically center buttons */
+    }
+
+    .nav-bar li {
+      display: flex;
+      align-items: center;
+      /* ensures buttons and toggle are centered */
     }
 
     .nav-bar a {
@@ -164,6 +173,7 @@
       background: #2d3a73;
       color: #fff;
     }
+
 
 
     /*******************************************************************************/
@@ -359,6 +369,14 @@
       z-index: 999;
     }
 
+    .popupGrid {
+
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+    }
+
     .popup-content {
       background-color: var(--card-bg);
       padding: 20px;
@@ -369,14 +387,35 @@
 
     .close-btn {
       position: absolute;
-      top: 5px;
-      right: 5px;
-      font-size: 18px;
+      top: 8px;
+      right: 8px;
+
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 50%;
+
+      background: #ff4d4d;
+      /* red circle */
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 1;
       cursor: pointer;
-      background: none;
-      color: red;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
 
+    .close-btn:hover {
+      background: #e60000;
+      transform: scale(1.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    }
 
     /*******************************************************************************/
 
@@ -1104,11 +1143,18 @@
 
 
     #themeToggle {
-      border-radius: 100%;
-      width: 50px;
-      height: 50px;
+      border-radius: 50%;
+      /* circle */
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      /* vertical center */
+      justify-content: center;
+      /* horizontal center */
+      text-align: center;
     }
-
 
 
 
