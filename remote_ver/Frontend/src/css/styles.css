@@ -231,7 +231,7 @@
   .exposureContainer {
     display: flex;
   }
-  
+
 
   .exposureContainer button {
     border-radius: 0;
@@ -734,11 +734,12 @@
     display: flex;
     justify-content: center;
     /* centers horizontally */
-    align-items: flex-start;
-    /* keeps it at the top vertically */
+    align-items: center;
+    /* centers vertically */
     width: 100%;
-    /* height can be whatever your container needs */
+    height: 100%;
   }
+
 
   #foucsingBtns button {
     width: 60px;
@@ -985,24 +986,27 @@
   }
 
   #openCam {
-  background-color: #32CD32; /* lime green */
-  color: white;
-  transition: background-color 0.2s;
-}
+    background-color: #66DE93;
+    /* lime green */
+    color: white;
+    transition: background-color 0.2s;
+  }
 
-#openCam:hover {
-  background-color: #28a428; /* darker green */
-}
+  #openCam:hover {
+    background-color: #28a428;
+    /* darker green */
+  }
 
-#stopCam {
-  background-color: red;
-  color: white;
-  transition: background-color 0.2s;
-}
+  #stopCam {
+    background-color: #F55C47;
+    color: white;
+    transition: background-color 0.2s;
+  }
 
-#stopCam:hover {
-  background-color: darkred; /* darker red */
-}
+  #stopCam:hover {
+    background-color: darkred;
+    /* darker red */
+  }
 
 
   .controls button {
