@@ -557,10 +557,18 @@
     .exposureLabelContainer {
       border-top: 1px solid lightgray;
       border-left: 1px solid lightgray;
-      border-bottom: 1p;
+      border-bottom: 1px solid lightgray;
+      /* fixed typo */
       border-radius: 5px 0 0 0;
       background-color: white;
       color: black;
+      user-select: none;
+      /* prevent selection */
+    }
+
+    .exposureLabel {
+      user-select: none;
+      /* prevent selection */
     }
 
     #exposureInput {
