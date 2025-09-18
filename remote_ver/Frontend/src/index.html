@@ -32,9 +32,9 @@
       <h1>Digital Holographic Microscope Web Interface</h1>
       <nav class="nav-bar">
         <ul>
-          <li> <button onclick="openPopup('popup1')" class="styled-btn">Microscope Parameters</button></li>
-          <li><button onclick="openPopup('popup2')" class="styled-btn">Communication Parameters</button></li>
-          <li><button id="themeToggle" class="styled-btn">🌙</button></li>
+          <li> <button onclick="openPopup('popup1')" class="mainBtn">Microscope Parameters</button></li>
+          <li><button onclick="openPopup('popup2')" class="mainBtn">Communication Parameters</button></li>
+          <li><button id="themeToggle" class="mainBtn">🌙</button></li>
 
 
 
@@ -131,23 +131,23 @@
             <div class="output-images-vertical" id="outputImages">
               <!-- Object Image -->
               <div class="output-group">
-                <span id="objectLabel">None selected</span>
+                <span id="objectLabel" class="normalText">None selected</span>
                 <div class="output-box" id="objectImageOutput">
-                  <span id="opjectImagePlaceholder">Object Image</span>
+                  <span id="opjectImagePlaceholder" class="output-box-text">Object Image</span>
 
                 </div>
-                <label class="custom-file-upload styled-btn" for="imageFile">Load Object Image</label>
-                <input type="file" id="imageFile" accept="image/*">
+                <label class="custom-file-upload mainBtn" for="imageFile">Load Object Image</label>
+                <input type="file" id="imageFile" accept="image/*" class="hiddenInputField">
               </div>
 
               <!-- Reference Image -->
               <div class="output-group">
-                <span id="referenceLabel">None selected</span>
+                <span id="referenceLabel" class="normalText">None selected</span>
                 <div class="output-box" id="referenceImageOutput">
-                  <span id="referenceImagePlaceholder">Reference Image</span>
+                  <span id="referenceImagePlaceholder" class="output-box-text">Reference Image</span>
                 </div>
-                <label class="custom-file-upload styled-btn" for="refFile">Load Reference Image</label>
-                <input type="file" id="refFile" accept="image/*">
+                <label class="custom-file-upload mainBtn" for="refFile">Load Reference Image</label>
+                <input type="file" id="refFile" accept="image/*" class="hiddenInputField">
               </div>
 
             </div>
@@ -158,37 +158,37 @@
 
 
         <!-- Captured Output -->
-        <div class="camera-output" id="cameraOutput">
-          <h4>Captured Output</h4>
-          <div class="output-images" id="outputImages">
+        <div class="capturedOutputContainer" id="capturedOutputContainer">
+          <h4 class="normalText">Captured Output</h4>
+          <div class="outputContainer" id="outputContainer">
 
             <div class="output-group">
               <div class="output-box" id="phaseOutput">
-                <span>Phase Difference</span>
+                <span class="output-box-text">Phase Difference</span>
               </div>
-              <button id="phaseDiff" type="button">Phase Difference</button>
+              <button id="phaseDiff" type="button" class="mainBtn">Phase Difference</button>
             </div>
 
             <div class="output-group">
               <div class="output-box" id="roiOutput">
-                <span id="xxx">Region of Interest</span>
+                <span id="xxx" class="output-box-text">Region of Interest</span>
               </div>
-              <button id="selectRoiBtn" type="button">Select ROI</button>
+              <button id="selectRoiBtn" type="button" class="mainBtn">Select ROI</button>
             </div>
 
 
             <div class="output-group">
               <div class="output-box" id="output3D">
-                <span>3D</span>
+                <span class="output-box-text">3D</span>
               </div>
-              <button id="3dbtn">3D profile</button>
+              <button id="3dbtn" class="mainBtn">3D profile</button>
             </div>
 
             <div class="output-group">
               <div class="output-box" id="output1D">
-                <span>1D</span>
+                <span class="output-box-text">1D</span>
               </div>
-              <button id="1dbtn">1D profile</button>
+              <button id="1dbtn" class="mainBtn">1D profile</button>
             </div>
           </div>
         </div>
@@ -203,14 +203,14 @@
           <div class="camera-box">
             <div id="cameraContainer" style="margin-top: 20px;">
 
-              <h3>Live Camera</h3>
+              <h3 class="normalText">Live Camera</h3>
               <div class="cameraBox">
 
                 <div class="exposureContainer">
                   <div class="labelContainer"> <label for="exposureInput">Exposure (μs):</label>
                   </div>
                   <input type="number" id="exposureInput" value="150" step="10" />
-                  <button id="setExposureBtn">Set Exposure</button> 
+                  <button id="setExposureBtn">Set Exposure</button>
                 </div>
 
                 <img id="cameraStream" src="../resources/no-cam.svg" style="max-width: 100%;" />
