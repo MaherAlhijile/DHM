@@ -231,6 +231,7 @@
   .exposureContainer {
     display: flex;
   }
+  
 
   .exposureContainer button {
     border-radius: 0;
@@ -983,6 +984,27 @@
     width: 100%;
   }
 
+  #openCam {
+  background-color: #32CD32; /* lime green */
+  color: white;
+  transition: background-color 0.2s;
+}
+
+#openCam:hover {
+  background-color: #28a428; /* darker green */
+}
+
+#stopCam {
+  background-color: red;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+#stopCam:hover {
+  background-color: darkred; /* darker red */
+}
+
+
   .controls button {
     border-radius: 0px;
 
@@ -992,7 +1014,7 @@
     /* right border */
   }
 
-  #captureRefernceBtn{
+  #captureRefernceBtn {
     border: none;
   }
 
