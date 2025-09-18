@@ -9,8 +9,10 @@
     --headerColor: #2d3a73;
     --btnColor: #19183B;
     --btnText: white;
+    --boxBG: #f0f0f0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   }
+
 
   * {
     font-family: 'Anek Latin', sans-serif;
@@ -18,8 +20,9 @@
   }
 
   body.dark-mode {
-    --bg: #121212;
-    --card-bg: #1e1e1e;
+    --boxBG: lightGray;
+    --bg: #2e3440;
+    --card-bg: #22272f;
     --border: #333;
     --shadow: rgba(0, 0, 0, 0.8);
     --ictpBlue: black;
@@ -27,6 +30,7 @@
     /* lighter text in dark mode */
     --btnColor: lightGray;
     --btnText: black;
+
     color: #f1f1f1;
     background: var(--bg);
   }
@@ -223,8 +227,33 @@
   }
 
 
+
+  .exposureContainer {
+    display: flex;
+  }
+
+  .exposureContainer button {
+    border-radius: 0;
+  }
+
+  .exposureContainer button:hover {
+    background-color: #333;
+    /* example hover background */
+    color: #fff;
+    transform: none !important;
+    filter: none !important;
+  }
+
+
+  .labelContainer {
+    background-color: gray;
+    color: white;
+
+  }
+
   .cameraBox {
-    border-radius: 1%;
+    border-radius: 1% 1% 0 0;
+
     width: 810px;
     height: 520px;
     background-color: gainsboro;
@@ -337,6 +366,10 @@
     font-size: 0.9rem;
     font-weight: 600;
     transition: filter 0.2s, transform 0.2s, background 0.2s;
+  }
+
+  #center {
+    color: white;
   }
 
   button.secondary {
@@ -613,7 +646,7 @@
 
 
   .output-box {
-    background-color: #f0f0f0;
+    background-color: var(--boxBG);
     border: 1px solid #ccc;
     border-radius: var(--radius);
     display: flex;
@@ -945,6 +978,46 @@
     justify-items: center;
   }
 
+  .controls {
+    display: flex;
+    width: 100%;
+  }
+
+  .controls button {
+    border-radius: 0px;
+
+
+    /* left border */
+    border-right: 2px solid gray;
+    /* right border */
+  }
+
+  #captureRefernceBtn{
+    border: none;
+  }
+
+  .controls button:hover {
+    background-color: #333;
+
+
+    /* example hover background */
+    color: #fff;
+    /* example hover text */
+    transform: none !important;
+    /* prevent scaling */
+    filter: none !important;
+    /* prevent brightness change */
+  }
+
+
+  .controls>* {
+    flex: 1;
+    /* each child takes equal space */
+    text-align: center;
+    /* optional: center text inside */
+  }
+
+
   /* Focus controls container */
   .focus-controls {
     display: flex;
@@ -1147,7 +1220,7 @@
     cursor: pointer;
   }
 
-  #themeToggle{
+  #themeToggle {
     border-radius: 100%;
     width: 50px;
     height: 50px;

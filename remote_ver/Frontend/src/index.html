@@ -36,7 +36,7 @@
           <li><button onclick="openPopup('popup2')" class="styled-btn">Communication Parameters</button></li>
           <li><button id="themeToggle" class="styled-btn">🌙</button></li>
 
-          
+
 
         </ul>
       </nav>
@@ -202,24 +202,39 @@
         <div class="camAll">
           <div class="camera-box">
             <div id="cameraContainer" style="margin-top: 20px;">
+
               <h3>Live Camera</h3>
               <div class="cameraBox">
+
+                <div class="exposureContainer">
+                  <div class="labelContainer"> <label for="exposureInput">Exposure (μs):</label>
+                  </div>
+                  <input type="number" id="exposureInput" value="150" step="10" />
+                  <button id="setExposureBtn">Set Exposure</button> 
+                </div>
+
                 <img id="cameraStream" src="../resources/no-cam.svg" style="max-width: 100%;" />
               </div>
-            </div>
 
-            <div class="controls">
-              <button id="openCam">Open Camera</button>
-              <button id="stopCam" class="secondary">Stop Camera</button>
-              <label for="exposureInput">Exposure (μs):</label>
-              <input type="number" id="exposureInput" value="150" step="10" />
-              <button id="setExposureBtn">Set Exposure</button>
-              <button id="captureImageBtn">Capture Image</button>
-              <select id="captureType">
+              <div class="controls">
+
+                <button id="openCam">Open Camera</button>
+                <button id="stopCam" class="secondary">Stop Camera</button>
+                <!-- <button id="setExposureBtn">Set Exposure</button> -->
+                <button id="captureImageBtn">Capture Image</button>
+                <button id="captureRefernceBtn">Capture Reference</button>
+
+
+                <!-- <select id="captureType">
                 <option value="object">As Object</option>
                 <option value="reference">As Reference</option>
-              </select>
+              </select> -->
+              </div>
+
+
             </div>
+
+
 
             <!-- Directional pad -->
             <div class="camStuff">
