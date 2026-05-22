@@ -1,215 +1,155 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
-  <title>Microscope GUI Web</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microscope Control Panel</title>
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
-
-
 </head>
-
 <body>
 
-
-  <div class="top-toggle-buttons">
-    <button id="toggleCamera">Camera</button>
-    <button id="toggleComputation">Computations and Output</button>
+  <!-- ── Microscope Parameters popup ── -->
+  <div class="popup" id="popup-microscope">
+    <div class="popup-content">
+      <button class="close-btn" onclick="closePopup('popup-microscope')">✕</button>
+      <h2>Microscope Parameters</h2>
+      <div class="form-grid">
+        <label for="wavelength">Wavelength (µm)</label>
+        <input id="wavelength" type="number" min="0" value="0.650" step="0.001" />
+        <label for="magnification">Magnification</label>
+        <input id="magnification" type="number" value="10" />
+        <label for="pixelSize">Camera Pixel Size (µm)</label>
+        <input id="pixelSize" type="number" value="1.0" step="0.1" />
+        <label for="ri">RI Difference</label>
+        <input id="ri" type="number" value="1" step="0.1" />
+        <label for="filterType">Filter Type</label>
+        <select id="filterType"><option>circle</option><option>square</option></select>
+        <label for="filterSize">Filter Size (px)</label>
+        <input id="filterSize" type="number" value="101" />
+        <label for="beams">Number of Beams</label>
+        <select id="beams"><option>1 Beam</option><option>2 Beams</option></select>
+        <label for="skipPixels">Pixels not used in scanning</label>
+        <input id="skipPixels" type="number" value="20" />
+      </div>
+    </div>
   </div>
 
-
-
-
-
-
-
-
-
-  <div class="container">
-    <!-- Left panel -->
-    <div class="left">
-
-      <div class="section" id="config">
-        <h2>configuration</h2>
-        <div class="row">
-          <button onclick="openPopup('popup1')">Microscope Parameters</button>
-          <button onclick="openPopup('popup2')">Communication Parameters</button>
-        </div>
+  <!-- ── Connection Parameters popup ── -->
+  <div class="popup" id="popup-connection">
+    <div class="popup-content">
+      <button class="close-btn" onclick="closePopup('popup-connection')">✕</button>
+      <h2>Connection Parameters</h2>
+      <div class="form-grid">
+        <label for="ipAddress">IP Address</label>
+        <input id="ipAddress" type="text" placeholder="192.168.1.1" />
+        <label for="port">Port</label>
+        <input id="port" type="number" placeholder="8000" />
+        <label for="connectionType">Connection Type</label>
+        <select id="connectionType">
+          <option value="local">Local</option>
+          <option value="remote">Remote</option>
+        </select>
       </div>
-
-      <!-- Popup 1 -->
-      <div class="popup" id="popup1" onclick="closePopup(event, 'popup1')">
-        <div class="popup-content" onclick="event.stopPropagation()">
-          <button class="close-btn" onclick="closePopupById('popup1')">X</button>
-          <!-- Microscope Parameters -->
-            <h2>Microscope Parameters</h2>
-            <div class="row">
-              <div class="field">
-                <label for="wavelength">Wavelength (µm)</label>
-                <input id="wavelength" type="number" min="0" value="0.650" step="0.001" />
-              </div>
-              <div class="field">
-                <label for="magnification">Magnification</label>
-                <input id="magnification" type="number" value="10" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="field">
-                <label for="pixelSize">Camera Pixel Size (µm)</label>
-                <input id="pixelSize" type="number" value="1.0" step="0.1" />
-              </div>
-              <div class="field">
-                <label for="ri">RI Difference</label>
-                <input id="ri" type="number" value="1" step="0.1" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="field">
-                <label for="filterType">Filter Type</label>
-                <select id="filterType">
-                  <option>circle</option>
-                  <option>square</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="filterSize">Filter Size (pixels)</label>
-                <input id="filterSize" type="number" value="101" />
-              </div>
-            </div>
-            <div class="row">
-              <div class="field">
-                <label for="beams">Number of beams</label>
-                <select id="beams">
-                  <option>1 Beam</option>
-                  <option>2 Beams</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="skipPixels">Pixels not used in scanning</label>
-                <input id="skipPixels" type="number" value="20" />
-              </div>
-            </div>
-        </div>
-      </div>
-
-      <!-- Popup 2 -->
-      <div class="popup" id="popup2" onclick="closePopup(event, 'popup2')">
-        <div class="popup-content" onclick="event.stopPropagation()">
-          <button class="close-btn" onclick="closePopupById('popup2')">X</button>
-            <h2>Connection Parameters</h2>
-            <div class="row">
-              <div class="field">
-                <label for="ipAddress">IP Address</label>
-                <input id="ipAddress" type="text" placeholder="192.168.1.1" />
-              </div>
-              <div class="field">
-                <label for="port">Port</label>
-                <input id="port" type="number" placeholder="8080" />
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="field">
-                <label for="connectionType">Connection Type</label>
-                <select id="connectionType">
-                  <option value="local">Local</option>
-                  <option value="remote">Remote</option>
-                </select>
-              </div>
-            </div>
-        </div>
-      </div>
-
-
-      <div class="section" id="images">
-        <h2>Images</h2>
-        <div class="row">
-          <label>Object Image:</label>
-          <input type="file" id="imageFile" accept="image/*"><br>
-          <label>Reference Image:</label>
-          <input type="file" id="refFile" accept="image/*">
-        </div>
-      </div>
-
-
-
-
-      <div class="camera-output" id="cameraOutput">
-        
-        <h4>Captured Output</h4>
-        <div class="output-images" id="outputImages">
-
-          <div class="smallOutput">
-            <!-- <div class="output-group">
-              <div class="output-box" id="spectrumOutput">
-                <span>Spectrum</span>
-              </div>
-              <button id="checkSpectrum" class="sm">Check Spectrum</button>
-            </div> -->
-
-            <div class="output-group">
-              <div class="output-box" id="phaseOutput">
-                <span>Phase Difference</span>
-                <div style="position:relative; display:inline-block;">
-                  <img id="phaseImage" style="max-width:100%; border:1px solid #ccc;">
-                  <canvas id="roiCanvas" style="position:absolute; left:0; top:0;"></canvas>
-                </div>
-              </div>
-              <button id="phaseDiff" type="button">Phase Difference</button>
-            </div>
-
-            <div class="output-group">
-              <div class="output-box" id="roiOutput">
-                <span>Region of Interest</span>
-              </div>
-              <button id="selectRoiBtn" type="button">Select ROI</button>
-            </div>
-
-          </div>
-
-
-          <div class="bigOutput">
-            <div class="output-group">
-              <div class="output-box" id="output3D">
-                <span>3D</span>
-              </div>
-              <button class="sm" id="3dbtn">3D profile</button>
-            </div>
-
-            <div class="output-group">
-              <div class="output-box" id="output1D">
-                <span>1D</span>
-              </div>
-              <button class="sm" id="1dbtn">1D profile</button>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-
     </div>
-    <!-- Right panel: Camera + directional pad -->
-    <div class="right">
+  </div>
 
-      <div class="camera-box">
-        <div id="cameraContainer" style="margin-top: 20px;">
-          <h3>Live Camera</h3>
-          <img id="cameraStream" style="max-width: 100%;" />
+  <!-- ══════════════════════════════════════ -->
+  <div class="app-layout">
+
+    <!-- ── LEFT PANEL ── -->
+    <aside class="panel panel-left">
+
+      <section class="card">
+        <h2 class="card-title">Configuration</h2>
+        <div class="btn-row">
+          <button onclick="openPopup('popup-microscope')">Microscope Parameters</button>
+          <button onclick="openPopup('popup-connection')">Connection Parameters</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Images</h2>
+        <div class="file-row">
+          <label for="imageFile">Object image</label>
+          <input type="file" id="imageFile" accept="image/*" />
+        </div>
+        <div class="file-row">
+          <label for="refFile">Reference image</label>
+          <input type="file" id="refFile" accept="image/*" />
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">Captured Output</h2>
+        <div class="outputs-grid">
+
+          <div class="output-cell">
+            <div class="output-box" id="phaseOutput">
+              <span class="output-label">Phase Difference</span>
+              <div style="position:relative;display:inline-block;">
+                <img id="phaseImage" style="max-width:100%;" />
+                <canvas id="roiCanvas" style="position:absolute;left:0;top:0;"></canvas>
+              </div>
+            </div>
+            <button id="phaseDiff">Phase Difference</button>
+          </div>
+
+          <div class="output-cell">
+            <div class="output-box" id="roiOutput">
+              <span class="output-label">Region of Interest</span>
+            </div>
+            <button id="selectRoiBtn">Select ROI</button>
+          </div>
+
+          <div class="output-cell">
+            <div class="output-box" id="output3D">
+              <span class="output-label">3D Profile</span>
+            </div>
+            <button id="3dbtn">3D Profile</button>
+          </div>
+
+          <div class="output-cell">
+            <div class="output-box" id="output1D">
+              <span class="output-label">1D Profile</span>
+            </div>
+            <button id="1dbtn">1D Profile</button>
+          </div>
+
+        </div>
+      </section>
+
+    </aside>
+
+    <!-- ── RIGHT PANEL ── -->
+    <main class="panel panel-right">
+
+      <!-- Camera feed -->
+      <div class="camera-feed-wrapper">
+
+        <div class="camera-topbar">
+          <button id="openCam">Start Camera</button>
+          <button id="stopCam" class="btn-secondary">Stop Camera</button>
+          <button id="freezeBtn" class="btn-secondary">Freeze Frame</button>
+          <span class="bar-label">Exposure (µs)</span>
+          <input type="number" id="exposureInput" value="150" step="10" class="bar-input" />
+          <button id="setExposureBtn">Set</button>
         </div>
 
-         
+        <div class="camera-view" id="cameraView">
+          <div class="camera-placeholder">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none"
+                 stroke="#7a9ab8" stroke-width="1.2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 7l-7 5 7 5V7z"/>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+            <span>No camera feed — press Start Camera</span>
+          </div>
+          <img id="cameraStream" alt="" />
+        </div>
 
-        <div class="controls">
-          <button id="openCam">Open Camera</button>
-          <button id="stopCam" class="secondary">Stop Camera</button>
-          <label for="exposureInput">Exposure (μs):</label>
-          <input type="number" id="exposureInput" value="150" step="10" />
-          <button id="setExposureBtn">Set Exposure</button>
-
+        <div class="camera-bottombar">
           <button id="captureImageBtn">Capture Image</button>
           <select id="captureType">
             <option value="object">As Object</option>
@@ -217,37 +157,55 @@
           </select>
         </div>
 
+      </div>
 
-        <!-- Directional pad -->
-        <div class="camStuff">
+      <!-- Stage controls -->
+      <div class="stage-controls">
 
-          <div class="directional-container">
-            
-
+        <div class="stage-block">
+          <p class="stage-label">X / Y Stage</p>
+          <div class="dpad">
+            <div class="dpad-empty"></div>
+            <button class="dpad-btn" id="btn-up"    title="Y+">▲</button>
+            <div class="dpad-empty"></div>
+            <button class="dpad-btn" id="btn-left"  title="X−">◀</button>
+            <div class="dpad-center">XY</div>
+            <button class="dpad-btn" id="btn-right" title="X+">▶</button>
+            <div class="dpad-empty"></div>
+            <button class="dpad-btn" id="btn-down"  title="Y−">▼</button>
+            <div class="dpad-empty"></div>
           </div>
-
-
         </div>
 
-        <script src="js/app.js"></script>
-        <script src="js/imagesSaver.js"></script>
-        <script>
-          function openPopup(id) {
-            document.getElementById(id).style.display = 'flex';
-          }
+        <div class="stage-block">
+          <p class="stage-label">Focus / Z</p>
+          <div class="focus-btns">
+            <button class="dpad-btn focus-btn" id="btn-z-up">Focus +</button>
+            <button class="dpad-btn focus-btn" id="btn-z-down">Focus −</button>
+          </div>
+        </div>
 
-          function closePopup(event, id) {
-            // Close only if clicking outside content
-            document.getElementById(id).style.display = 'none';
-          }
+        <div class="stage-block">
+          <p class="stage-label">Steps per click</p>
+          <input type="number" id="stepsInput" value="50" min="1" max="500" step="10" class="steps-input" />
+          <button class="btn-stop" id="btn-stop">■ Stop all</button>
+          <p class="status-text" id="dpad-status"></p>
+        </div>
 
-          function closePopupById(id) {
-            document.getElementById(id).style.display = 'none';
-          }
-        </script>
+      </div>
 
+    </main>
+  </div>
 
+  <script src="js/app.js"></script>
+  <script src="js/motors.js"></script>
+  <script>
+    function openPopup(id)  { document.getElementById(id).style.display = 'flex'; }
+    function closePopup(id) { document.getElementById(id).style.display = 'none'; }
+    document.querySelectorAll('.popup').forEach(p => {
+      p.addEventListener('click', e => { if (e.target === p) closePopup(p.id); });
+    });
+  </script>
 
 </body>
-
 </html>
