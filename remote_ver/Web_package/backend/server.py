@@ -18,6 +18,7 @@ import os
 import cv2
 import base64
 from pydantic import BaseModel
+import motor_controls
 
 import plotly.graph_objs as go
 import plotly.io as pio
@@ -31,6 +32,11 @@ roi_phase = None
 roi_coords = None
 reference_captured = None
 image_captured = None
+
+class MotorMoveRequest(BaseModel):
+    motor: int
+    direction: str
+    steps: int = 50
 
 
 # Enable CORS (for frontend fetch calls)
@@ -323,6 +329,56 @@ async def stop_camera():
     except Exception as e:
         return {"error": str(e)}
 
+
+# Motor control endpoints
+
+@app.get("/motors/init")
+def init_motors_endpoint():
+    try:
+        return motor_controls.init_motors()
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+
+@app.post("/motors/move")
+def move_motor_endpoint(data: MotorMoveRequest):
+    try:
+        result = motor_controls.move_motor_steps(
+            motor_index=data.motor,
+            direction=data.direction,
+            steps=data.steps
+        )
+
+        if "error" in result:
+            return JSONResponse(content=result, status_code=400)
+
+        return result
+
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+
+@app.post("/motors/stop")
+def stop_motors_endpoint():
+    try:
+        result = motor_controls.stop_all_motors()
+
+        if "error" in result:
+            return JSONResponse(content=result, status_code=400)
+
+        return result
+
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+
+@app.post("/motors/cleanup")
+def cleanup_motors_endpoint():
+    try:
+        return motor_controls.cleanup_motors()
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+    
 
 # Calculate absolute path to frontend folder
 frontend_path = os.path.join(os.path.dirname(__file__), "..", "Frontend", "src")
