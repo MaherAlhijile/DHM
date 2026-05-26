@@ -343,11 +343,15 @@ def init_motors_endpoint():
 @app.post("/motors/move")
 def move_motor_endpoint(data: MotorMoveRequest):
     try:
+        print("Received motor request:", data)
+
         result = motor_controls.move_motor_steps(
             motor_index=data.motor,
             direction=data.direction,
             steps=data.steps
         )
+
+        print("Motor result:", result)
 
         if "error" in result:
             return JSONResponse(content=result, status_code=400)
@@ -355,7 +359,7 @@ def move_motor_endpoint(data: MotorMoveRequest):
         return result
 
     except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
+        print("Motor exception:", e)
 
 
 @app.post("/motors/stop")

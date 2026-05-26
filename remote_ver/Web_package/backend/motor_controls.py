@@ -2,7 +2,44 @@
 import time
 import json
 import os
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
+try:
+    import RPi.GPIO as GPIO
+    GPIO_AVAILABLE = True
+except ModuleNotFoundError:
+    GPIO_AVAILABLE = False
+
+    class MockGPIO:
+        BCM = "BCM"
+        OUT = "OUT"
+        IN = "IN"
+        LOW = 0
+        HIGH = 1
+        PUD_UP = "PUD_UP"
+        FALLING = "FALLING"
+
+        def setmode(self, mode):
+            print(f"[MOCK GPIO] setmode({mode})")
+
+        def setwarnings(self, flag):
+            print(f"[MOCK GPIO] setwarnings({flag})")
+
+        def setup(self, pin, mode, pull_up_down=None):
+            print(f"[MOCK GPIO] setup(pin={pin}, mode={mode})")
+
+        def output(self, pin, value):
+            print(f"[MOCK GPIO] output(pin={pin}, value={value})")
+
+        def input(self, pin):
+            return self.HIGH
+
+        def add_event_detect(self, pin, edge, callback=None, bouncetime=150):
+            print(f"[MOCK GPIO] add_event_detect(pin={pin})")
+
+        def cleanup(self):
+            print("[MOCK GPIO] cleanup()")
+
+    GPIO = MockGPIO()
 import threading
 
 SETTINGS_FILE = "motor_settings.json"
